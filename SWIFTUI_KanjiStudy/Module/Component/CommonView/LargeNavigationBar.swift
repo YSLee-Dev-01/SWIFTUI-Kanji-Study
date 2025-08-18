@@ -34,6 +34,7 @@ struct LargeNavigationBar: View {
             
             Spacer()
         }
+        .padding(.horizontal, 20)
     }
 }
 

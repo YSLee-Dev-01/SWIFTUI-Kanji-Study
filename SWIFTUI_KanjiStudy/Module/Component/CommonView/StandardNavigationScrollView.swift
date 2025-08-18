@@ -25,14 +25,13 @@ struct StandardNavigationScrollView<Contents>: View where Contents: View {
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
             LargeNavigationBar(title: self.title, backBtnConfig: self.backBtnConfig)
-                .padding(.horizontal, 15)
             
             ScrollView {
                 self.contents
-                    .padding(.horizontal, 15)
+                    .padding(.horizontal, 20)
             }
         }
-        .padding(.vertical, 15)
+        .padding(.vertical, 20)
     }
 }
 
