@@ -14,7 +14,7 @@ struct MainStyleView<Contents>: View where Contents: View {
         self.contents
             .background {
                 RoundedRectangle(cornerRadius: 15)
-                    .fill(Color.black.opacity(0.07))
+                    .fill(Color.gray.opacity(0.1))
             }
     }
 }
