@@ -36,18 +36,17 @@ struct HomeView: View {
                         title: "あいう",
                         subTitle: "히라가나"
                     ){
-                        
+                        self.store.send(.ganaBtnTapped(isHiragana: true))
                     }
                     
                     self.createMainButton(
                         title: "アイウ",
                         subTitle: "가타카나"
                     ){
-                        
+                        self.store.send(.ganaBtnTapped(isHiragana: false))
                     }
                 }
                
-                
                 self.createMainButton(
                     title: "漢字単語",
                     subTitle: "한자"

@@ -16,7 +16,19 @@ struct AppView: View {
     }
     
     var body: some View {
-        HomeView(store: self.store.scope(state: \.homeFeature, action: \.homeAction))
+        NavigationStack(path: self.$store.scope(state: \.path, action: \.path), root: {
+            HomeView(store: self.store.scope(state: \.homeFeature, action: \.homeAction))
+        }) { store in
+            Group {
+                switch store.state {
+                case .ganaState:
+                    if let store = store.scope(state: \.ganaState, action: \.ganaAction) {
+                        GanaView(store: store)
+                    }
+                }
+            }
+            .navigationBarBackButtonHidden()
+        }
     }
 }
 

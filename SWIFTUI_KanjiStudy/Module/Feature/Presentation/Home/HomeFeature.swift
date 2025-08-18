@@ -16,7 +16,7 @@ struct HomeFeature: Reducer {
     }
     
     enum Action: Equatable {
-        
+        case ganaBtnTapped(isHiragana: Bool)
     }
     
     var body: some Reducer<State, Action> {
