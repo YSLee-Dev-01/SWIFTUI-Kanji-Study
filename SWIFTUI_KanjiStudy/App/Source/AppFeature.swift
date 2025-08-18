@@ -12,14 +12,18 @@ import ComposableArchitecture
 struct AppFeature: Reducer {
     @ObservableState
     struct State: Equatable {
-        
+        var homeFeature: HomeFeature.State
     }
     
-    enum Action {
-        
+    enum Action: Equatable {
+        case homeAction(HomeFeature.Action)
     }
     
     var body: some Reducer<State, Action> {
+        Scope(state: \.homeFeature, action: \.homeAction) {
+            HomeFeature()
+        }
+        
         Reduce { state, action in
             switch action {
             default: return .none

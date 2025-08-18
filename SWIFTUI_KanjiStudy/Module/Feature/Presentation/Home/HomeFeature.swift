@@ -6,3 +6,24 @@
 //
 
 import Foundation
+import ComposableArchitecture
+
+@Reducer
+struct HomeFeature: Reducer {
+    @ObservableState
+    struct State: Equatable {
+        
+    }
+    
+    enum Action: Equatable {
+        
+    }
+    
+    var body: some Reducer<State, Action> {
+        Reduce { state, action in
+            switch action {
+            default: return .none
+            }
+        }
+    }
+}

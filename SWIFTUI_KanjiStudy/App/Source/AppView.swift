@@ -9,13 +9,17 @@ import SwiftUI
 import ComposableArchitecture
 
 struct AppView: View {
-    @State var store: StoreOf<AppFeature>
+    @State private  var store: StoreOf<AppFeature>
+    
+    init(store: StoreOf<AppFeature>) {
+        self.store = store
+    }
     
     var body: some View {
-        Text("Hello, World!")
+        HomeView(store: self.store.scope(state: \.homeFeature, action: \.homeAction))
     }
 }
 
 #Preview {
-    AppView(store: .init(initialState: .init(), reducer: {AppFeature()}))
+    AppView(store: .init(initialState: .init(homeFeature: .init()), reducer: {AppFeature()}))
 }

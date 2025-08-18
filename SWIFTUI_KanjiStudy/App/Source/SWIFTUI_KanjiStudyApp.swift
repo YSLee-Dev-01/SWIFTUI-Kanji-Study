@@ -10,7 +10,7 @@ import ComposableArchitecture
 
 @main
 struct SWIFTUI_KanjiStudyApp: App {
-    private let store: StoreOf<AppFeature> = .init(initialState: .init(), reducer: {AppFeature()})
+    private let store: StoreOf<AppFeature> = .init(initialState: .init(homeFeature: .init()), reducer: {AppFeature()})
     
     var body: some Scene {
         WindowGroup {
