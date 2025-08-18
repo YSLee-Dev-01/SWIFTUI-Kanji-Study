@@ -16,7 +16,9 @@ struct HomeView: View {
     }
     
     var body: some View {
-        Text("Home View")
+        StandardNavigationScrollView(title: "홈", backBtnConfig: nil) {
+           Text("Home View")
+        }
     }
 }
 
