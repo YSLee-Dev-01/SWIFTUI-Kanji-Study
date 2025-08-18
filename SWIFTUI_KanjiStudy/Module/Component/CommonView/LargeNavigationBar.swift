@@ -29,8 +29,7 @@ struct LargeNavigationBar: View {
                     }
             }
             Text(self.title)
-                .font(.title)
-                .fontWeight(.bold)
+                .font(.system(size: 25, weight: .semibold))
             
             Spacer()
         }
