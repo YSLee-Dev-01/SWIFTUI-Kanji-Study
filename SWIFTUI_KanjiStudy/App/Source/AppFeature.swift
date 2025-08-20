@@ -28,12 +28,12 @@ struct AppFeature: Reducer {
         
         Reduce { state, action in
             switch action {
-            case .homeAction(.ganaBtnTapped(let isHiragana)):
-                state.path.append(.ganaState(.init(isHiragana: isHiragana)))
+            case .homeAction(.ganaBtnTapped(let kanaType)):
+                state.path.append(.ganaState(.init(kanaType: kanaType)))
                 return .none
                 
             case .path(.element(id: _, action: .ganaAction(.backBtnTapped))):
-                state.path.popLast()
+                state.path.removeLast()
                 return .none
                 
             default: return .none

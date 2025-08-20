@@ -14,11 +14,12 @@ struct GanaFeature: Reducer {
     
     @ObservableState
     struct State: Equatable {
-        let isHiragana: Bool
-        var gana: [[String]] = []
+        let kanaType: KanaType
+        var ganaList: [[String]] = []
+        var selectedGanaIndexPath: IndexPath? = nil
         
-        init(isHiragana: Bool) {
-            self.isHiragana = isHiragana
+        init(kanaType: KanaType) {
+            self.kanaType = kanaType
         }
     }
     
@@ -31,8 +32,8 @@ struct GanaFeature: Reducer {
         Reduce { state, action in
             switch action {
             case .onAppear:
-                if state.gana.isEmpty {
-                    state.gana = state.isHiragana ?  ganaManager.getGiragana() : ganaManager.getKatakana()
+                if state.ganaList.isEmpty {
+                    state.ganaList = state.kanaType == .hiragana ?  ganaManager.getGiragana() : ganaManager.getKatakana()
                 }
                 return .none
                 

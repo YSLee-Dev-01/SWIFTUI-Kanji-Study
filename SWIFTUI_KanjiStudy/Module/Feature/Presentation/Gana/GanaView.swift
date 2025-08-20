@@ -17,7 +17,7 @@ struct GanaView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            LargeNavigationBar(title: self.store.isHiragana ? "히라가나" : "가타카나"){
+            LargeNavigationBar(title: self.store.kanaType == .hiragana ? "히라가나" : "가타카나"){
                 self.store.send(.backBtnTapped)
             }
         
@@ -38,7 +38,7 @@ struct GanaView: View {
             }
             
             VStack(spacing: 15) {
-                ForEach(Array(self.store.gana.enumerated()), id: \.offset) { _, row in
+                ForEach(Array(self.store.ganaList.enumerated()), id: \.offset) { _, row in
                     HStack(spacing: 15) {
                         ForEach(Array(row.enumerated()), id: \.offset) { _, item in
                             if !item.isEmpty {
@@ -71,5 +71,5 @@ struct GanaView: View {
 }
 
 #Preview {
-    GanaView(store: .init(initialState: .init(isHiragana: true), reducer: {GanaFeature()}))
+    GanaView(store: .init(initialState: .init(kanaType: .hiragana), reducer: {GanaFeature()}))
 }
