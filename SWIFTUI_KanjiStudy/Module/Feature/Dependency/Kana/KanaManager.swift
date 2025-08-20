@@ -27,10 +27,11 @@ struct KanaManager: KanaManagerProtocol {
         return KanaConstants.katakana
     }
     
-    func createKanaInfo(from kana: String, at indexPath: IndexPath, type: KanaType) -> KanaInfo {
+    func createKanaInfo(at indexPath: IndexPath, type: KanaType) -> KanaInfo {
+        let originalKana = type == .hiragana ? getHiragana()[indexPath.section][indexPath.row] : getKatakana()[indexPath.section][indexPath.row]
         let otherKana = convertKana(at: indexPath, from: type)
         let pronunciations = KanaConstants.pronunciations[indexPath.section][indexPath.row]
-        return .init(hiragana: type == .hiragana ? kana : otherKana, katakana: type == .katakana ? kana : otherKana, originalKanaType: type, englishPronunciation: pronunciations.1, koreanPronunciation: pronunciations.0)
+        return .init(hiragana: type == .hiragana ? originalKana : otherKana, katakana: type == .katakana ? originalKana : otherKana, originalKanaType: type, englishPronunciation: pronunciations.1, koreanPronunciation: pronunciations.0)
     }
 }
 

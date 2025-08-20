@@ -10,5 +10,5 @@ import Foundation
 protocol KanaManagerProtocol {
     func getHiragana() -> [[String]]
     func getKatakana() -> [[String]]
-    func createKanaInfo(from kana: String, at indexPath: IndexPath, type: KanaType) -> KanaInfo 
+    func createKanaInfo(at indexPath: IndexPath, type: KanaType) -> KanaInfo 
 }
