@@ -10,4 +10,5 @@ import Foundation
 protocol GanaManagerProtocol {
     func getGiragana() -> [[String]]
     func getKatakana() -> [[String]]
+    func convertKana(at indexPath: IndexPath, from sourceType: KanaType) -> String 
 }

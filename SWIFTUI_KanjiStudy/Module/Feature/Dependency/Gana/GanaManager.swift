@@ -48,4 +48,12 @@ struct GanaManager: GanaManagerProtocol {
             ["ワ", "", "ヲ", "", "ン"]
         ]
     }
+    
+    func convertKana(at indexPath: IndexPath, from sourceType: KanaType) -> String  {
+        if sourceType == .hiragana {
+           return getKatakana()[indexPath.section][indexPath.row]
+        } else {
+            return getGiragana()[indexPath.section][indexPath.row]
+        }
+    }
 }
