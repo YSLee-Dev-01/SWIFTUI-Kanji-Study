@@ -10,13 +10,12 @@ import ComposableArchitecture
 
 @Reducer
 struct KanaFeature: Reducer {
-    @Dependency(\.ganaManager) var ganaManager
+    @Dependency(\.kanaManager) var kanaManager
     
     @ObservableState
     struct State: Equatable {
         let kanaType: KanaType
         var kanaList: [[String]] = []
-        var selectedKanaIndexPath: IndexPath? = nil
         var selectedKanaInfo: KanaInfo? = nil
         
         init(kanaType: KanaType) {
@@ -35,12 +34,12 @@ struct KanaFeature: Reducer {
             switch action {
             case .onAppear:
                 if state.kanaList.isEmpty {
-                    state.kanaList = state.kanaType == .hiragana ?  ganaManager.getHiragana() : ganaManager.getKatakana()
+                    state.kanaList = state.kanaType == .hiragana ?  kanaManager.getHiragana() : kanaManager.getKatakana()
                 }
                 return .none
                 
             case .ganaSelected(let indexPath):
-                state.selectedKanaIndexPath = indexPath
+                state.selectedKanaInfo = kanaManager.createKanaInfo(at: indexPath, type: state.kanaType)
                 return .none
                 
             default: return .none

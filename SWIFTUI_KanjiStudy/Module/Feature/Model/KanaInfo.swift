@@ -13,4 +13,12 @@ struct KanaInfo: Equatable {
     let originalKanaType: KanaType
     let englishPronunciation: String
     let koreanPronunciation: String
+    
+    var originalKana: String {
+        originalKanaType  == .hiragana ? hiragana : katakana
+    }
+    
+    var otherKana: String {
+        originalKanaType == .hiragana ? katakana : hiragana
+    }
 }
