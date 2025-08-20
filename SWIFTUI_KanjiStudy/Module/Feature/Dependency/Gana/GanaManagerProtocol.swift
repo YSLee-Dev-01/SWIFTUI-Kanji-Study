@@ -8,7 +8,7 @@
 import Foundation
 
 protocol GanaManagerProtocol {
-    func getGiragana() -> [[String]]
+    func getHiragana() -> [[String]]
     func getKatakana() -> [[String]]
     func convertKana(at indexPath: IndexPath, from sourceType: KanaType) -> String 
 }
