@@ -28,11 +28,11 @@ struct AppFeature: Reducer {
         
         Reduce { state, action in
             switch action {
-            case .homeAction(.ganaBtnTapped(let kanaType)):
-                state.path.append(.ganaState(.init(kanaType: kanaType)))
+            case .homeAction(.kanaBtnTapped(let kanaType)):
+                state.path.append(.kanaState(.init(kanaType: kanaType)))
                 return .none
                 
-            case .path(.element(id: _, action: .ganaAction(.backBtnTapped))):
+            case .path(.element(id: _, action: .kanaAction(.backBtnTapped))):
                 state.path.removeLast()
                 return .none
                 
@@ -50,16 +50,16 @@ extension AppFeature {
     struct Path: Reducer {
         @ObservableState
         enum State: Equatable {
-            case ganaState(GanaFeature.State)
+            case kanaState(KanaFeature.State)
         }
         
         enum Action: Equatable {
-            case ganaAction(GanaFeature.Action)
+            case kanaAction(KanaFeature.Action)
         }
         
         var body: some Reducer<State, Action> {
-            Scope(state: \.ganaState, action: \.ganaAction) {
-                GanaFeature()
+            Scope(state: \.kanaState, action: \.kanaAction) {
+                KanaFeature()
             }
         }
     }

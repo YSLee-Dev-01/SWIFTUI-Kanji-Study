@@ -36,14 +36,14 @@ struct HomeView: View {
                         title: "あいう",
                         subTitle: "히라가나"
                     ){
-                        self.store.send(.ganaBtnTapped(kanaType: .hiragana))
+                        self.store.send(.kanaBtnTapped(kanaType: .hiragana))
                     }
                     
                     self.createMainButton(
                         title: "アイウ",
                         subTitle: "가타카나"
                     ){
-                        self.store.send(.ganaBtnTapped(kanaType: .katakana))
+                        self.store.send(.kanaBtnTapped(kanaType: .katakana))
                     }
                 }
                

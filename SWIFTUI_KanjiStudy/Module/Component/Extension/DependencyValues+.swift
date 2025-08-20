@@ -9,8 +9,8 @@ import Foundation
 import ComposableArchitecture
 
 extension DependencyValues {
-    var ganaManager: GanaManagerProtocol {
-        get {self[GanaManagerKey.self]}
-        set {self[GanaManagerKey.self] = newValue}
+    var ganaManager: KanaManagerProtocol {
+        get {self[KanaManagerKey.self]}
+        set {self[KanaManagerKey.self] = newValue}
     }
 }

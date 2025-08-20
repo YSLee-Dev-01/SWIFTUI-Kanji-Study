@@ -1,5 +1,5 @@
 //
-//  GanaConstants.swift
+//  KanaConstants.swift
 //  SWIFTUI_KanjiStudy
 //
 //  Created by 이윤수 on 8/20/25.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct GanaConstants {
+struct KanaConstants {
     static let hiragana =  [
         ["あ", "い", "う", "え", "お"],
         ["か", "き", "く", "け", "こ"],

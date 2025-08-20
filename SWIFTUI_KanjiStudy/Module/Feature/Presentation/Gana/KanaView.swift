@@ -1,5 +1,5 @@
 //
-//  GanaView.swift
+//  KanaView.swift
 //  SWIFTUI_KanjiStudy
 //
 //  Created by 이윤수 on 8/18/25.
@@ -8,10 +8,10 @@
 import SwiftUI
 import ComposableArchitecture
 
-struct GanaView: View {
-    @State private var store: StoreOf<GanaFeature>
+struct KanaView: View {
+    @State private var store: StoreOf<KanaFeature>
     
-    init(store: StoreOf<GanaFeature>) {
+    init(store: StoreOf<KanaFeature>) {
         self.store = store
     }
     
@@ -26,24 +26,24 @@ struct GanaView: View {
                     HStack(spacing: 10) {
                         Image(systemName: "info.circle")
                             .resizable()
-                            .frame(width: 17, height: 17)
+                            .frame(width: 16, height: 16)
                             .foregroundStyle(Color.black.opacity(0.6))
                         
                         Text("가나를 눌러서 상세정보를 확인해보세요.")
                             .foregroundStyle(Color.black.opacity(0.6))
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.system(size: 15, weight: .medium))
                     }
                 }
                 .frame(height: 40)
             }
             
             VStack(spacing: 15) {
-                ForEach(Array(self.store.ganaList.enumerated()), id: \.offset) { _, row in
+                ForEach(Array(self.store.kanaList.enumerated()), id: \.offset) { row, rowItem in
                     HStack(spacing: 15) {
-                        ForEach(Array(row.enumerated()), id: \.offset) { _, item in
+                        ForEach(Array(rowItem.enumerated()), id: \.offset) { itemIndex, item in
                             if !item.isEmpty {
                                 Button {
-                                    
+                                    self.store.send(.ganaSelected(IndexPath(row: itemIndex, section: row)))
                                 } label : {
                                     MainStyleView {
                                         ExpandedView(alignment: .center) {
@@ -71,5 +71,5 @@ struct GanaView: View {
 }
 
 #Preview {
-    GanaView(store: .init(initialState: .init(kanaType: .hiragana), reducer: {GanaFeature()}))
+    KanaView(store: .init(initialState: .init(kanaType: .hiragana), reducer: {KanaFeature()}))
 }

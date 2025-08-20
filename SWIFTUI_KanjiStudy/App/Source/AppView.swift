@@ -21,9 +21,9 @@ struct AppView: View {
         }) { store in
             Group {
                 switch store.state {
-                case .ganaState:
-                    if let store = store.scope(state: \.ganaState, action: \.ganaAction) {
-                        GanaView(store: store)
+                case .kanaState:
+                    if let store = store.scope(state: \.kanaState, action: \.kanaAction) {
+                        KanaView(store: store)
                     }
                 }
             }

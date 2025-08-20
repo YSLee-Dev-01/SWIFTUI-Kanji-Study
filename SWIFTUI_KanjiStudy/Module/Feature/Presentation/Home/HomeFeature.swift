@@ -16,7 +16,7 @@ struct HomeFeature: Reducer {
     }
     
     enum Action: Equatable {
-        case ganaBtnTapped(kanaType: KanaType)
+        case kanaBtnTapped(kanaType: KanaType)
     }
     
     var body: some Reducer<State, Action> {
