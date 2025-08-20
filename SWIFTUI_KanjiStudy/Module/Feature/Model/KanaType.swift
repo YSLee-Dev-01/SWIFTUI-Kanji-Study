@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum KanaType {
+enum KanaType: Equatable {
     case hiragana
     case katakana
 }
