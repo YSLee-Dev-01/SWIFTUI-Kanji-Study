@@ -9,22 +9,26 @@ import SwiftUI
 
 struct StandardNavigationScrollView<Contents>: View where Contents: View {
     let title: String
-    let backBtnConfig: (imageName: String, imageSize: CGSize, btnTap: () -> ())?
+    let backBtnConfig: (imageName: String, imageSize: CGSize)?
+    let backBtnConfigAction: (() -> Void)?
+    
     @ViewBuilder var contents: Contents
     
     init(
         title: String,
-        backBtnConfig: (imageName: String, imageSize: CGSize, btnTap: () -> ())? = ("chevron.backward", .init(width: 12, height: 22), {}),
+        backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 12, height: 22)),
+        backBtnConfigAction: (() -> ())? = nil,
         @ViewBuilder contents: @escaping () -> Contents
     ) {
         self.title = title
         self.backBtnConfig = backBtnConfig
+        self.backBtnConfigAction = backBtnConfigAction
         self.contents = contents()
     }
     
     var body: some View {
         VStack(alignment: .center, spacing: 10) {
-            LargeNavigationBar(title: self.title, backBtnConfig: self.backBtnConfig)
+            LargeNavigationBar(title: self.title, backBtnConfig: self.backBtnConfig, backBtnConfigAction: self.backBtnConfigAction)
             
             ScrollView {
                 self.contents

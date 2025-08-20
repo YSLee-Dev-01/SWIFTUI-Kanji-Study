@@ -9,11 +9,13 @@ import SwiftUI
 
 struct LargeNavigationBar: View {
     let title: String
-    let backBtnConfig: (imageName: String, imageSize: CGSize, btnTap: () -> ())?
+    let backBtnConfig: (imageName: String, imageSize: CGSize)?
+    let backBtnConfigAction: (() -> Void)?
     
-    init(title: String, backBtnConfig: (imageName: String, imageSize: CGSize, btnTap: () -> ())? = ("chevron.backward", .init(width: 12, height: 22), {})) {
+    init(title: String, backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 12, height: 22)), backBtnConfigAction: (() -> ())? = nil) {
         self.title = title
         self.backBtnConfig = backBtnConfig
+        self.backBtnConfigAction = backBtnConfigAction
     }
     
     var body: some View {
@@ -25,7 +27,7 @@ struct LargeNavigationBar: View {
                     .frame(width: backBtnConfig.imageSize.width, height:  backBtnConfig.imageSize.height)
                     .padding(.trailing, 10)
                     .onTapGesture {
-                        backBtnConfig.btnTap()
+                        self.backBtnConfigAction?()
                     }
             }
             Text(self.title)
