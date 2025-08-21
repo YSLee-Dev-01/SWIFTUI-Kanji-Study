@@ -68,6 +68,9 @@ struct KanaView: View {
                     }
                 }
             }
+            .onTapGesture {
+                self.store.send(.kanaDeselected)
+            }
             
             VStack(spacing: 15) {
                 ForEach(Array(self.store.kanaList.enumerated()), id: \.offset) { row, rowItem in
@@ -75,7 +78,7 @@ struct KanaView: View {
                         ForEach(Array(rowItem.enumerated()), id: \.offset) { itemIndex, item in
                             if !item.isEmpty {
                                 Button {
-                                    self.store.send(.ganaSelected(IndexPath(row: itemIndex, section: row)))
+                                    self.store.send(.kanaSelected(IndexPath(row: itemIndex, section: row)))
                                 } label : {
                                     MainStyleView {
                                         ExpandedView(alignment: .center) {

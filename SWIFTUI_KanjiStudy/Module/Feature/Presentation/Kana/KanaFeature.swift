@@ -26,7 +26,8 @@ struct KanaFeature: Reducer {
     enum Action: Equatable {
         case onAppear
         case backBtnTapped
-        case ganaSelected(IndexPath)
+        case kanaSelected(IndexPath)
+        case kanaDeselected
     }
     
     var body: some Reducer<State, Action> {
@@ -38,8 +39,12 @@ struct KanaFeature: Reducer {
                 }
                 return .none
                 
-            case .ganaSelected(let indexPath):
+            case .kanaSelected(let indexPath):
                 state.selectedKanaInfo = kanaManager.createKanaInfo(at: indexPath, type: state.kanaType)
+                return .none
+                
+            case .kanaDeselected:
+                state.selectedKanaInfo = nil
                 return .none
                 
             default: return .none
