@@ -36,6 +36,10 @@ struct AppFeature: Reducer {
                 state.path.removeLast()
                 return .none
                 
+            case .homeAction(.kanjiBtnTapped):
+                state.path.append(.kanjiListState(.init()))
+                return .none
+                
             default: return .none
             }
         }
@@ -51,15 +55,21 @@ extension AppFeature {
         @ObservableState
         enum State: Equatable {
             case kanaState(KanaFeature.State)
+            case kanjiListState(KanjiListFeature.State)
         }
         
         enum Action: Equatable {
             case kanaAction(KanaFeature.Action)
+            case kanjiListAction(KanjiListFeature.Action)
         }
         
         var body: some Reducer<State, Action> {
             Scope(state: \.kanaState, action: \.kanaAction) {
                 KanaFeature()
+            }
+            
+            Scope(state: \.kanjiListState, action: \.kanjiListAction) {
+                KanjiListFeature()
             }
         }
     }

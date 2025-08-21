@@ -51,7 +51,7 @@ struct HomeView: View {
                     title: "漢字単語",
                     subTitle: "한자"
                 ){
-                    
+                    self.store.send(.kanjiBtnTapped)
                 }
             }
             .padding(.horizontal, 20)
