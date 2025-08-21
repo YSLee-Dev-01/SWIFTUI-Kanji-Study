@@ -1,23 +1,21 @@
 //
-//  HomeFeature.swift
+//  KanjiListFeature.swift
 //  SWIFTUI_KanjiStudy
 //
-//  Created by 이윤수 on 8/18/25.
+//  Created by 이윤수 on 8/21/25.
 //
 
 import Foundation
 import ComposableArchitecture
 
 @Reducer
-struct HomeFeature: Reducer {
+struct KanjiListFeature: Reducer {
     @ObservableState
     struct State: Equatable {
         
     }
     
     enum Action: Equatable {
-        case kanaBtnTapped(kanaType: KanaType)
-        case kanjiBtnTapped
     }
     
     var body: some Reducer<State, Action> {

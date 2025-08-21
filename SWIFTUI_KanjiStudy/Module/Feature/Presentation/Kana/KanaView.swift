@@ -54,7 +54,7 @@ struct KanaView: View {
                         }
                         .padding(20)
                     } else {
-                        HStack(spacing: 10) {
+                        HStack(spacing: 5) {
                             Image(systemName: "info.circle")
                                 .resizable()
                                 .frame(width: 14, height: 14)
