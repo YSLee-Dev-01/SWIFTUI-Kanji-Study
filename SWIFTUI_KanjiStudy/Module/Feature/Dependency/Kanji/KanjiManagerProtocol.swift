@@ -6,3 +6,7 @@
 //
 
 import Foundation
+
+protocol KanjiManagerProtocol {
+    func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]]
+}
