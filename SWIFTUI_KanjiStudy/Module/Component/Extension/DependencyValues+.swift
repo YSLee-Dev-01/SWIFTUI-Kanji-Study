@@ -13,4 +13,9 @@ extension DependencyValues {
         get {self[KanaManagerKey.self]}
         set {self[KanaManagerKey.self] = newValue}
     }
+    
+    var kanjiManager: KanjiManagerProtocol {
+        get {self[KanjiManagerKey.self]}
+        set {self[KanjiManagerKey.self] = newValue}
+    }
 }
