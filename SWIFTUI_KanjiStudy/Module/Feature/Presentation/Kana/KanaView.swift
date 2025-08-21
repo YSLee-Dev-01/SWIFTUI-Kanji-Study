@@ -24,7 +24,7 @@ struct KanaView: View {
             MainStyleView(cornerRadius: 0) {
                 ExpandedView(alignment: .center) {
                     if let selectedKanaInfo = self.store.selectedKanaInfo {
-                        HStack(spacing: 20) {
+                        HStack(spacing: 25) {
                             Text(selectedKanaInfo.originalKana)
                                 .font(.system(size: 50, weight: .semibold))
                                 .frame(width: 70, height: 70)
@@ -35,7 +35,7 @@ struct KanaView: View {
                             
                             Image(systemName: "arrow.left.arrow.right")
                                 .resizable()
-                                .frame(width: 25, height: 25)
+                                .frame(width: 20, height: 20)
                                 .foregroundStyle(Color.gray.opacity(0.6))
                             
                             VStack(spacing: 10) {
@@ -57,12 +57,12 @@ struct KanaView: View {
                         HStack(spacing: 10) {
                             Image(systemName: "info.circle")
                                 .resizable()
-                                .frame(width: 16, height: 16)
+                                .frame(width: 14, height: 14)
                                 .foregroundStyle(Color.black.opacity(0.6))
                             
                             Text("가나를 눌러서 상세정보를 확인해보세요.")
                                 .foregroundStyle(Color.black.opacity(0.6))
-                                .font(.system(size: 15, weight: .medium))
+                                .font(.system(size: 14, weight: .medium))
                         }
                         .frame(height: 40)
                     }
@@ -80,15 +80,29 @@ struct KanaView: View {
                                 Button {
                                     self.store.send(.kanaSelected(IndexPath(row: itemIndex, section: row)))
                                 } label : {
-                                    MainStyleView {
-                                        ExpandedView(alignment: .center) {
-                                            let isSelected = self.store.selectedKanaInfo?.originalKana == item
-                                            Text(item)
-                                                .font(.system(size: 17, weight: isSelected ? .semibold : .light))
-                                                .foregroundStyle(isSelected ? Color.red : Color.black)
-                                                .frame(maxHeight: 55)
+                                    let isSelected = self.store.selectedKanaInfo?.originalKana == item
+                                    
+                                    Group {
+                                        if isSelected {
+                                            ExpandedView(alignment: .center) {
+                                                Text(item)
+                                                    .frame(maxHeight: 55)
+                                            }
+                                            .background {
+                                                RoundedRectangle(cornerRadius: 15)
+                                                    .fill(Color.black.opacity(0.7))
+                                            }
+                                        } else {
+                                            MainStyleView {
+                                                ExpandedView(alignment: .center) {
+                                                    Text(item)
+                                                        .frame(maxHeight: 55)
+                                                }
+                                            }
                                         }
                                     }
+                                    .font(.system(size: 17, weight: isSelected ? .semibold : .light))
+                                    .foregroundStyle(isSelected ? Color.white :  Color.black)
                                 }
                             }
                         }
