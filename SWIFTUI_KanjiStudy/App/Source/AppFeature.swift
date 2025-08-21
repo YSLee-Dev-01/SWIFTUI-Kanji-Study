@@ -32,7 +32,7 @@ struct AppFeature: Reducer {
                 state.path.append(.kanaState(.init(kanaType: kanaType)))
                 return .none
                 
-            case .path(.element(id: _, action: .kanaAction(.backBtnTapped))):
+            case .path(.element(id: _, action: .kanaAction(.backBtnTapped))), .path(.element(id: _, action: .kanjiListAction(.backBtnTapped))):
                 state.path.removeLast()
                 return .none
                 
