@@ -13,16 +13,18 @@ struct KanjiManager: KanjiManagerProtocol {
     
     static var shared = KanjiManager()
     
+    private var kanjiList: [KanjiInfo] = []
+    
     // MARK: - LifeCycle
     
-    private init() {}
+    private init() {
+        self.kanjiList = self.loadKanjiData()
+    }
     
     // MARK: - Methods
     
     func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]] {
-        let kanjiList = loadKanjiData()
-        
-        return Dictionary(grouping: kanjiList) {
+        return Dictionary(grouping: self.kanjiList) {
             $0.jlptLevel
         }
         .mapValues {$0.sorted {$0.id < $1.id}}
