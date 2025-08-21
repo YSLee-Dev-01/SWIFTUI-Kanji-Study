@@ -25,6 +25,7 @@ struct KanjiListFeature: Reducer {
     enum Action: Equatable {
         case onAppear
         case backBtnTapped
+        case stepBtnTapped(Int)
     }
     
     var body: some Reducer<State, Action> {

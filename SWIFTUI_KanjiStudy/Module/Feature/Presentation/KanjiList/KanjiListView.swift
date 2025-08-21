@@ -37,10 +37,10 @@ struct KanjiListView: View {
                 }
             }
             
-            VStack(spacing: 25) {
+            VStack(spacing: 20) {
                 ForEach(Array(self.store.steps.enumerated()), id: \.offset) { row, step in
                     Button {
-                        
+                        self.store.send(.stepBtnTapped(row))
                     } label: {
                         ExpandedView(alignment: .leading) {
                             Text(step.title)
