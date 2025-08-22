@@ -14,20 +14,23 @@ struct KanjiManager: KanjiManagerProtocol {
     static var shared = KanjiManager()
     
     private var kanjiList: [KanjiInfo] = []
+    private var kanjiDict: [String: [KanjiInfo]] = [:]
     
     // MARK: - LifeCycle
     
     private init() {
         self.kanjiList = self.loadKanjiData()
+        self.updateKanjiDict()
     }
     
     // MARK: - Methods
     
     func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]] {
-        return Dictionary(grouping: self.kanjiList) {
-            $0.jlptLevel
-        }
-        .mapValues {$0.sorted {$0.id < $1.id}}
+        return self.kanjiDict
+    }
+    
+    func kanjiList(forJLPTLevel level: String) -> [KanjiInfo] {
+        return self.kanjiDict[level] ?? []
     }
 }
 
@@ -45,5 +48,12 @@ private extension KanjiManager {
             print("KanjiManager > 한자를 불러오는 중 오류 발생 \(error)")
             return []
         }
+    }
+    
+    mutating func updateKanjiDict() {
+        self.kanjiDict = Dictionary(grouping: self.kanjiList) {
+            $0.jlptLevel
+        }
+        .mapValues {$0.sorted {$0.id < $1.id}}
     }
 }

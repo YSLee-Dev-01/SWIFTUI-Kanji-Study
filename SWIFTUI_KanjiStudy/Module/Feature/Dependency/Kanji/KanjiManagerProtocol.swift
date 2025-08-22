@@ -9,4 +9,5 @@ import Foundation
 
 protocol KanjiManagerProtocol {
     func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]]
+    func kanjiList(forJLPTLevel level: String) -> [KanjiInfo] 
 }
