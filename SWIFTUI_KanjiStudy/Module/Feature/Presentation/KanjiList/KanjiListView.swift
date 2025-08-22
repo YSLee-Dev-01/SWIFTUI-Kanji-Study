@@ -30,15 +30,15 @@ struct KanjiListView: View {
                     HStack(alignment: .center) {
                         Text("JLPT")
                             .foregroundStyle(Color.black.opacity(0.6))
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.system(size: 14, weight: .medium))
                         
                         Text("\((self.store.selectedStep?.jlptLevel.rawValue) ?? "")")
-                            .font(.system(size: 25, weight: .semibold))
+                            .font(.system(size: 22, weight: .semibold))
                         
                         Spacer()
                         
                         Text("\((self.store.selectedStep?.count) ?? 0)개")
-                            .font(.system(size: 16, weight: .medium))
+                            .font(.system(size: 14, weight: .medium))
                     }
                     .padding(.horizontal, 20)
                 }
@@ -47,6 +47,7 @@ struct KanjiListView: View {
                    Rectangle()
                         .fill(Color.gray.opacity(Double(selectedStepRow + 1) * 0.1))
                 }
+                .transition(.offset(x: 0, y : 25).combined(with: .opacity))
             } else {
                 MainStyleView(cornerRadius: 0) {
                     ExpandedView(alignment: .center) {
@@ -63,6 +64,7 @@ struct KanjiListView: View {
                         .frame(height: 40)
                     }
                 }
+                .transition(.offset(x: 0, y : -25).combined(with: .opacity))
             }
             
             if let _ = self.store.selectedStep {
