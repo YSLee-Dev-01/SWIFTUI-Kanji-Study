@@ -8,6 +8,6 @@
 import Foundation
 
 protocol KanjiManagerProtocol {
-    func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]]
+    func groupKanjiByJLPTLevel() -> [JLPT: [KanjiInfo]]
     func kanjiList(forJLPTLevel level: String) -> [KanjiInfo] 
 }

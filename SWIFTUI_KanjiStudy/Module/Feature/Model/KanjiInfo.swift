@@ -11,7 +11,7 @@ struct KanjiInfo: Hashable, Codable {
     let id: Int
     let kanji: String
     let strokes: Int?
-    let jlptLevel: String
+    let jlptLevel: JLPT
     let description: String
     
     enum CodingKeys: String, CodingKey {
@@ -21,4 +21,8 @@ struct KanjiInfo: Hashable, Codable {
         case jlptLevel = "jlpt"
         case description = "description"
     }
+}
+
+enum JLPT: String, Hashable, Codable {
+    case N1, N2, N3, N4, N5
 }

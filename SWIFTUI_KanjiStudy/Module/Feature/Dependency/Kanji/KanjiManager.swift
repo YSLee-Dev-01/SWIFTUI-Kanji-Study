@@ -14,7 +14,7 @@ struct KanjiManager: KanjiManagerProtocol {
     static var shared = KanjiManager()
     
     private var kanjiList: [KanjiInfo] = []
-    private var kanjiDict: [String: [KanjiInfo]] = [:]
+    private var kanjiDict: [JLPT: [KanjiInfo]] = [:]
     
     // MARK: - LifeCycle
     
@@ -25,12 +25,13 @@ struct KanjiManager: KanjiManagerProtocol {
     
     // MARK: - Methods
     
-    func groupKanjiByJLPTLevel() -> [String: [KanjiInfo]] {
+    func groupKanjiByJLPTLevel() -> [JLPT: [KanjiInfo]] {
         return self.kanjiDict
     }
     
     func kanjiList(forJLPTLevel level: String) -> [KanjiInfo] {
-        return self.kanjiDict[level] ?? []
+        guard let jlptLevel = JLPT(rawValue: level) else {return []}
+        return self.kanjiDict[jlptLevel] ?? []
     }
 }
 
