@@ -21,51 +21,101 @@ struct KanjiListView: View {
                 self.store.send(.backBtnTapped)
             }
             
-            MainStyleView(cornerRadius: 0) {
-                ExpandedView(alignment: .center) {
-                    HStack(spacing: 5) {
-                        Image(systemName: "info.circle")
-                            .resizable()
-                            .frame(width: 14, height: 14)
+            if let selectedStepRow = self.store.selectedStepRow {
+                ExpandedView(alignment: .leading) {
+                    HStack(alignment: .center) {
+                        Text("JLPT")
                             .foregroundStyle(Color.black.opacity(0.6))
+                            .font(.system(size: 16, weight: .medium))
                         
-                        Text("JLPT 레벨에 맞춰서 한자를 확인하세요.")
-                            .foregroundStyle(Color.black.opacity(0.6))
-                            .font(.system(size: 14, weight: .medium))
+                        Text("\(self.store.selectedStep!.jlptLevel.rawValue)")
+                            .font(.system(size: 25, weight: .semibold))
                     }
-                    .frame(height: 40)
+                    .padding(.leading, 20)
+                }
+                .frame(height: 60)
+                .background {
+                   Rectangle()
+                        .fill(Color.gray.opacity(Double(selectedStepRow + 1) * 0.1))
+                }
+            } else {
+                MainStyleView(cornerRadius: 0) {
+                    ExpandedView(alignment: .center) {
+                        HStack(spacing: 5) {
+                            Image(systemName: "info.circle")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                                .foregroundStyle(Color.black.opacity(0.6))
+                            
+                            Text("JLPT 레벨에 맞춰서 한자를 확인하세요.")
+                                .foregroundStyle(Color.black.opacity(0.6))
+                                .font(.system(size: 14, weight: .medium))
+                        }
+                        .frame(height: 40)
+                    }
                 }
             }
             
-            VStack(spacing: 20) {
-                ForEach(Array(self.store.steps.enumerated()), id: \.offset) { row, step in
-                    Button {
-                        self.store.send(.stepBtnTapped(row))
-                    } label: {
-                        ExpandedView(alignment: .leading) {
-                            Text(step.title)
-                                .font(.system(size: 35, weight: .semibold))
-                                .foregroundStyle(Color.black)
-                        }
-                        .frame(maxHeight: .infinity)
-                        .background {
-                            ExpandedView(alignment: .trailing) {
-                                Text("\(step.count)개")
-                                    .font(.system(size: 35, weight: .light))
-                                    .foregroundStyle(Color.black.opacity(0.15))
+            if let _ = self.store.selectedStep {
+                ScrollView {
+                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+                        ForEach(0 ..< self.store.selectedStepKanjiCount, id: \.self) { row in
+                            MainStyleView {
+                                Button {
+                                    
+                                } label: {
+                                    ExpandedView(alignment: .center) {
+                                        Text("\(row + 1)")
+                                            .foregroundStyle(Color.black)
+                                            .font(.system(size: 22, weight: .semibold))
+                                            .frame(height: 65)
+                                    }
+                                    .overlay {
+                                        Text("STEP")
+                                            .font(.system(size: 50, weight: .ultraLight))
+                                            .foregroundStyle(Color.gray.opacity(0.2))
+                                    }
+                                }
                             }
                         }
-                        .padding(.horizontal, 20)
-                        .background {
-                            RoundedRectangle(cornerRadius: 15)
-                                .fill(Color.gray.opacity(Double(row + 1) * 0.1))
+                    }
+                    .padding(.horizontal, 20)
+                }
+                .transition(.move(edge: .bottom).combined(with: .opacity))
+                
+            } else {
+                VStack(spacing: 20) {
+                    ForEach(Array(self.store.steps.enumerated()), id: \.offset) { row, step in
+                        Button {
+                            self.store.send(.stepBtnTapped(row))
+                        } label: {
+                            ExpandedView(alignment: .leading) {
+                                Text(step.jlptLevel.rawValue)
+                                    .font(.system(size: 35, weight: .semibold))
+                                    .foregroundStyle(Color.black)
+                            }
+                            .frame(maxHeight: .infinity)
+                            .background {
+                                ExpandedView(alignment: .trailing) {
+                                    Text("\(step.count)개")
+                                        .font(.system(size: 35, weight: .light))
+                                        .foregroundStyle(Color.black.opacity(0.15))
+                                }
+                            }
+                            .padding(.horizontal, 20)
+                            .background {
+                                RoundedRectangle(cornerRadius: 15)
+                                    .fill(Color.gray.opacity(Double(row + 1) * 0.1))
+                            }
                         }
                     }
                 }
+                .padding(.horizontal, 20)
+                .transition(.move(edge: .top).combined(with: .opacity))
             }
-            .padding(.horizontal, 20)
         }
         .padding(.vertical, 20)
+        .animation(.spring(duration: 0.3), value: self.store.selectedStep)
         .onAppear {
             self.store.send(.onAppear)
         }

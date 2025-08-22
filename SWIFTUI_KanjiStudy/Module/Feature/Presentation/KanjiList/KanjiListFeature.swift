@@ -5,11 +5,11 @@
 //  Created by 이윤수 on 8/21/25.
 //
 
-import Foundation
+import SwiftUI
 import ComposableArchitecture
 
 struct Step: Equatable {
-    let title: String
+    let jlptLevel: JLPT
     let count: Int
 }
 
@@ -20,6 +20,9 @@ struct KanjiListFeature: Reducer {
     @ObservableState
     struct State: Equatable {
         var steps: [Step] = []
+        var selectedStepRow: Int? = nil
+        var selectedStep: Step? = nil
+        var selectedStepKanjiCount = 0
     }
     
     enum Action: Equatable {
@@ -33,8 +36,14 @@ struct KanjiListFeature: Reducer {
             switch action {
             case .onAppear:
                 if state.steps.isEmpty {
-                    state.steps = kanjiManager.groupKanjiByJLPTLevel().map {Step(title: $0.key, count: $0.value.count)}.sorted {$0.title > $1.title}
+                    state.steps = kanjiManager.groupKanjiByJLPTLevel().map {Step(jlptLevel: $0.key, count: $0.value.count)}.sorted {$0.jlptLevel.rawValue > $1.jlptLevel.rawValue}
                 }
+                return .none
+                
+            case .stepBtnTapped(let row):
+                state.selectedStepRow = row
+                state.selectedStep = state.steps[row]
+                state.selectedStepKanjiCount = Int(ceil(Double(kanjiManager.kanjiList(forJLPTLevel: state.selectedStep?.jlptLevel.rawValue ?? "").count) / 10))
                 return .none
                 
             default: return .none
