@@ -29,6 +29,7 @@ struct KanjiListFeature: Reducer {
         case onAppear
         case backBtnTapped
         case stepBtnTapped(Int)
+        case stepDeselected
     }
     
     var body: some Reducer<State, Action> {
@@ -41,9 +42,15 @@ struct KanjiListFeature: Reducer {
                 return .none
                 
             case .stepBtnTapped(let row):
+                if state.selectedStep != nil {return .none}
                 state.selectedStepRow = row
                 state.selectedStep = state.steps[row]
                 state.selectedStepKanjiCount = Int(ceil(Double(kanjiManager.kanjiList(forJLPTLevel: state.selectedStep?.jlptLevel.rawValue ?? "").count) / 10))
+                return .none
+                
+            case .stepDeselected:
+                state.selectedStep = nil
+                state.selectedStepRow = nil
                 return .none
                 
             default: return .none

@@ -17,8 +17,12 @@ struct KanjiListView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            LargeNavigationBar(title: "한자"){
-                self.store.send(.backBtnTapped)
+            LargeNavigationBar(title: self.store.selectedStepRow == nil ? "한자" : "상세보기"){
+                if self.store.selectedStep == nil {
+                    self.store.send(.backBtnTapped)
+                } else {
+                    self.store.send(.stepDeselected)
+                }
             }
             
             if let selectedStepRow = self.store.selectedStepRow {
@@ -28,10 +32,15 @@ struct KanjiListView: View {
                             .foregroundStyle(Color.black.opacity(0.6))
                             .font(.system(size: 16, weight: .medium))
                         
-                        Text("\(self.store.selectedStep!.jlptLevel.rawValue)")
+                        Text("\((self.store.selectedStep?.jlptLevel.rawValue) ?? "")")
                             .font(.system(size: 25, weight: .semibold))
+                        
+                        Spacer()
+                        
+                        Text("\((self.store.selectedStep?.count) ?? 0)개")
+                            .font(.system(size: 16, weight: .medium))
                     }
-                    .padding(.leading, 20)
+                    .padding(.horizontal, 20)
                 }
                 .frame(height: 60)
                 .background {
