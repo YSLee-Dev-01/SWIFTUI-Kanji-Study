@@ -92,7 +92,7 @@ struct KanjiListView: View {
                     }
                     .padding(.horizontal, 20)
                 }
-                .transition(.move(edge: .bottom).combined(with: .opacity))
+                .transition(.offset(x: 0, y : 100).combined(with: .opacity))
                 
             } else {
                 VStack(spacing: 20) {
@@ -122,7 +122,7 @@ struct KanjiListView: View {
                     }
                 }
                 .padding(.horizontal, 20)
-                .transition(.move(edge: .top).combined(with: .opacity))
+                .transition(.offset(x: 0, y : -100).combined(with: .opacity))
             }
         }
         .padding(.vertical, 20)
