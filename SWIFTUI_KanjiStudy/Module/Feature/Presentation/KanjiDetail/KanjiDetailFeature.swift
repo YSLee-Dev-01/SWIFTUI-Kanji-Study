@@ -17,6 +17,7 @@ struct KanjiDetailFeature: Reducer {
         let kanjiList: [KanjiInfo]
         let jlptLevel: String
         var selectedKanjiRow: Int?
+        var selectedKanjiDetailInfo: KanjiDetail?
         
         init(kanjiList: [KanjiInfo], jlptLevel: String) {
             self.kanjiList = kanjiList
@@ -34,7 +35,7 @@ struct KanjiDetailFeature: Reducer {
             switch action {
             case .kanjiSelected(let row):
                 state.selectedKanjiRow = state.selectedKanjiRow == row ? nil : row
-                print(kanjiManager.findKanjiDetail(by: state.kanjiList[row ?? 0].kanji))
+                state.selectedKanjiDetailInfo = state.selectedKanjiRow == nil ?  nil : kanjiManager.findKanjiDetail(by: state.kanjiList[state.selectedKanjiRow!].kanji)
                 return .none
                 
             default: return .none

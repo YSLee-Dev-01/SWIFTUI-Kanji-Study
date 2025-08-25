@@ -28,12 +28,19 @@ struct KanjiDetailView: View {
                                 self.store.send(.kanjiSelected(row))
                             } label: {
                                 ExpandedView(alignment: .center) {
-                                    VStack(spacing: 15) {
+                                    VStack(spacing: 10) {
                                         Text(data.kanji)
                                             .foregroundStyle(Color.black)
                                             .font(.system(size: 30, weight: .medium))
                                         
                                         if self.store.selectedKanjiRow == row {
+                                            if let detailInfo = self.store.selectedKanjiDetailInfo {
+                                                Text(detailInfo.totalYomi)
+                                                    .foregroundStyle(Color.black.opacity(0.8))
+                                                    .font(.system(size: 17, weight: .regular))
+                                                    .padding(.bottom, 10)
+                                            }
+                                            
                                             Text(data.description)
                                                 .foregroundStyle(Color.gray)
                                                 .font(.system(size: 17, weight: .light))

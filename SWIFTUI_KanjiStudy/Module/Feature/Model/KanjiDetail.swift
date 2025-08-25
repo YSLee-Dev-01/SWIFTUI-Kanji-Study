@@ -11,6 +11,10 @@ struct KanjiDetail: Hashable, Codable {
     let onyomi: [String] // 음독
     let kunyomi: [String] // 훈독
     
+    var totalYomi: String {
+        onyomi.joined(separator: ", ") + "\(kunyomi.isEmpty || onyomi.isEmpty ? "" : " · ")" + kunyomi.joined(separator: ", ")
+    }
+    
     enum CodingKeys: String, CodingKey {
         case onyomi = "readings_on"
         case kunyomi = "readings_kun"
