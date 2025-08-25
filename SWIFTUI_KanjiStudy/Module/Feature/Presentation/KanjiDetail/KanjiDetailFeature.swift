@@ -10,6 +10,8 @@ import ComposableArchitecture
 
 @Reducer
 struct KanjiDetailFeature: Reducer {
+    @Dependency(\.kanjiManager) private var kanjiManager
+    
     @ObservableState
     struct State: Equatable {
         let kanjiList: [KanjiInfo]
@@ -32,6 +34,7 @@ struct KanjiDetailFeature: Reducer {
             switch action {
             case .kanjiSelected(let row):
                 state.selectedKanjiRow = state.selectedKanjiRow == row ? nil : row
+                print(kanjiManager.findKanjiDetail(by: state.kanjiList[row ?? 0].kanji))
                 return .none
                 
             default: return .none

@@ -14,33 +14,9 @@
 		FF7479652E52B1CF0013F8C6 /* SWIFTUI_KanjiStudy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SWIFTUI_KanjiStudy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		FF4FC2F02E5C30800028EC1B /* Exceptions for "SWIFTUI_KanjiStudy" folder in "SWIFTUI_KanjiStudy" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				App/Resource/Data/KanjiDetail.json,
-			);
-			target = FF7479642E52B1CF0013F8C6 /* SWIFTUI_KanjiStudy */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-		FF4FC2F12E5C30800028EC1B /* Exceptions for "SWIFTUI_KanjiStudy" folder in "Compile Sources" phase from "SWIFTUI_KanjiStudy" target */ = {
-			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
-			buildPhase = FF7479612E52B1CF0013F8C6 /* Sources */;
-			membershipExceptions = (
-				App/Resource/Data/KanjiDetail.json,
-			);
-		};
-/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		FF7479672E52B1CF0013F8C6 /* SWIFTUI_KanjiStudy */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				FF4FC2F02E5C30800028EC1B /* Exceptions for "SWIFTUI_KanjiStudy" folder in "SWIFTUI_KanjiStudy" target */,
-				FF4FC2F12E5C30800028EC1B /* Exceptions for "SWIFTUI_KanjiStudy" folder in "Compile Sources" phase from "SWIFTUI_KanjiStudy" target */,
-			);
 			path = SWIFTUI_KanjiStudy;
 			sourceTree = "<group>";
 		};
