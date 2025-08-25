@@ -21,8 +21,8 @@ struct KanjiDetailFeature: Reducer {
         }
     }
     
-    struct Action: Equatable {
-        
+    enum Action: Equatable {
+        case backBtnTapped
     }
     
     var body: some Reducer<State, Action> {
