@@ -69,7 +69,7 @@ struct KanjiListView: View {
             
             if let _ = self.store.selectedStep {
                 ScrollView {
-                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 10), GridItem(.flexible(), spacing: 10)], spacing: 10) {
+                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
                         ForEach(0 ..< self.store.selectedStepKanjiCount, id: \.self) { row in
                             MainStyleView {
                                 Button {

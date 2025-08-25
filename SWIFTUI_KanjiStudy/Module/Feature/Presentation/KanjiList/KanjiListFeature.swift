@@ -64,7 +64,7 @@ struct KanjiListFeature: Reducer {
                 guard let selectedStep = state.selectedStep else {return .none}
                 let kanjiList = kanjiManager.kanjiList(forJLPTLevel: selectedStep.jlptLevel.rawValue)
                 
-                return .send(.delegate(.navigateToKanjiDetail(kanjiList: Array(kanjiList[row ..< min(row + 11, kanjiList.count)]), jlptLevel: selectedStep.jlptLevel.rawValue)))
+                return .send(.delegate(.navigateToKanjiDetail(kanjiList: Array(kanjiList[row ..< min(row + 10, kanjiList.count)]), jlptLevel: selectedStep.jlptLevel.rawValue)))
                 
             default: return .none
             }
