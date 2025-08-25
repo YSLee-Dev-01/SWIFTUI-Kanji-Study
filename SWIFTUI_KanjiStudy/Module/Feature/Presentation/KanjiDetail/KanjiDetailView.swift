@@ -43,7 +43,7 @@ struct KanjiDetailView: View {
                                             
                                             Text(data.description)
                                                 .foregroundStyle(Color.gray)
-                                                .font(.system(size: 17, weight: .light))
+                                                .font(.system(size: 15, weight: .light))
                                         }
                                     }
                                 }
