@@ -21,5 +21,5 @@ struct KanjiDetailView: View {
 }
 
 #Preview {
-    KanjiDetailView(store: .init(initialState: .init(), reducer: {KanjiDetailFeature()}))
+    KanjiDetailView(store: .init(initialState: .init(kanjiList: [KanjiInfo(id: 1, kanji: "", strokes: nil, jlptLevel: .N1, description: "")], selectedJLPTLevel: ""), reducer: {KanjiDetailFeature()}))
 }

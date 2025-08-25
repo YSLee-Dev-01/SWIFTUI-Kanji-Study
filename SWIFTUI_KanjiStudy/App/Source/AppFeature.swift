@@ -32,12 +32,16 @@ struct AppFeature: Reducer {
                 state.path.append(.kanaState(.init(kanaType: kanaType)))
                 return .none
                 
+            case .homeAction(.kanjiBtnTapped):
+                state.path.append(.kanjiListState(.init()))
+                return .none
+                
             case .path(.element(id: _, action: .kanaAction(.backBtnTapped))), .path(.element(id: _, action: .kanjiListAction(.backBtnTapped))):
                 state.path.removeLast()
                 return .none
                 
-            case .homeAction(.kanjiBtnTapped):
-                state.path.append(.kanjiListState(.init()))
+            case .path(.element(id: _, action: .kanjiListAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level))))):
+                state.path.append(.kanjiDetailState(.init(kanjiList: list, selectedJLPTLevel: level)))
                 return .none
                 
             default: return .none
@@ -56,11 +60,13 @@ extension AppFeature {
         enum State: Equatable {
             case kanaState(KanaFeature.State)
             case kanjiListState(KanjiListFeature.State)
+            case kanjiDetailState(KanjiDetailFeature.State)
         }
         
         enum Action: Equatable {
             case kanaAction(KanaFeature.Action)
             case kanjiListAction(KanjiListFeature.Action)
+            case kanjiDetailAction(KanjiDetailFeature.Action)
         }
         
         var body: some Reducer<State, Action> {
@@ -70,6 +76,10 @@ extension AppFeature {
             
             Scope(state: \.kanjiListState, action: \.kanjiListAction) {
                 KanjiListFeature()
+            }
+            
+            Scope(state: \.kanjiDetailState, action: \.kanjiDetailAction) {
+                KanjiDetailFeature()
             }
         }
     }

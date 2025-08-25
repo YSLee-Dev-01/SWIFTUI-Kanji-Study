@@ -30,6 +30,13 @@ struct KanjiListFeature: Reducer {
         case backBtnTapped
         case stepBtnTapped(Int)
         case stepDeselected
+        case subStepTapped(Int)
+        
+        case delegate(Delegate)
+    }
+    
+    enum Delegate: Equatable {
+        case navigateToKanjiDetail(kanjiList: [KanjiInfo], jlptLevel: String)
     }
     
     var body: some Reducer<State, Action> {
@@ -52,6 +59,12 @@ struct KanjiListFeature: Reducer {
                 state.selectedStep = nil
                 state.selectedStepRow = nil
                 return .none
+                
+            case .subStepTapped(let row):
+                guard let selectedStep = state.selectedStep else {return .none}
+                let kanjiList = kanjiManager.kanjiList(forJLPTLevel: selectedStep.jlptLevel.rawValue)
+                
+                return .send(.delegate(.navigateToKanjiDetail(kanjiList: Array(kanjiList[row ..< min(row + 11, kanjiList.count)]), jlptLevel: selectedStep.jlptLevel.rawValue)))
                 
             default: return .none
             }

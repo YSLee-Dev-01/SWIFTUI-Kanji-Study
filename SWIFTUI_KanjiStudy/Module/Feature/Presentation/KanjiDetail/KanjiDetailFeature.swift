@@ -12,7 +12,13 @@ import ComposableArchitecture
 struct KanjiDetailFeature: Reducer {
     @ObservableState
     struct State: Equatable {
+        let kanjiList: [KanjiInfo]
+        let selectedJLPTLevel: String
         
+        init(kanjiList: [KanjiInfo], selectedJLPTLevel: String) {
+            self.kanjiList = kanjiList
+            self.selectedJLPTLevel = selectedJLPTLevel
+        }
     }
     
     struct Action: Equatable {

@@ -30,6 +30,10 @@ struct AppView: View {
                     if let store = store.scope(state: \.kanjiListState, action: \.kanjiListAction) {
                         KanjiListView(store: store)
                     }
+                case .kanjiDetailState(_):
+                    if let store = store.scope(state: \.kanjiDetailState, action: \.kanjiDetailAction) {
+                        KanjiDetailView(store: store)
+                    }
                 }
             }
             .navigationBarBackButtonHidden()

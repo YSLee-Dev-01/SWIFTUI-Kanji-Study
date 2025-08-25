@@ -73,7 +73,7 @@ struct KanjiListView: View {
                         ForEach(0 ..< self.store.selectedStepKanjiCount, id: \.self) { row in
                             MainStyleView {
                                 Button {
-                                    
+                                    self.store.send(.subStepTapped(row))
                                 } label: {
                                     ExpandedView(alignment: .center) {
                                         Text("\(row + 1)")
