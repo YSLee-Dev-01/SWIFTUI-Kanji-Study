@@ -125,6 +125,23 @@ struct KanjiListView: View {
                 .transition(.offset(x: 0, y : -100).combined(with: .opacity))
             }
         }
+        .overlay {
+            if self.store.selectedStep != nil {
+                ExpandedView(alignment: .leading) {
+                    Rectangle()
+                        .fill(Color.clear)
+                        .contentShape(Rectangle())
+                        .frame(width: 15)
+                        .frame(maxHeight: .infinity)
+                        .gesture(
+                            DragGesture()
+                                .onChanged { _ in
+                                    self.store.send(.stepDeselected)
+                                }
+                        )
+                }
+            }
+        }
         .padding(.vertical, 20)
         .animation(.spring(duration: 0.3), value: self.store.selectedStep)
         .onAppear {

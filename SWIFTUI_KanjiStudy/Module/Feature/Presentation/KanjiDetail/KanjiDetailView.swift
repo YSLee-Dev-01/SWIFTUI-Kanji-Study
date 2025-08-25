@@ -20,7 +20,6 @@ struct KanjiDetailView: View {
             StandardNavigationScrollView(title: "JLPT \(self.store.jlptLevel)", backBtnConfigAction: {
                 self.store.send(.backBtnTapped)
             }) {
-                
                 LazyVStack(spacing: 20) {
                     ForEach(Array(self.store.kanjiList.enumerated()), id: \.offset) { row, data in
                         MainStyleView {
