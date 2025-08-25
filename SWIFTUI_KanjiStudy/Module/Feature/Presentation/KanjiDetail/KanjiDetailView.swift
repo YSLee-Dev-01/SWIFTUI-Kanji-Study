@@ -17,7 +17,7 @@ struct KanjiDetailView: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            StandardNavigationScrollView(title: "JLPT \(self.store.selectedJLPTLevel)", backBtnConfigAction: {
+            StandardNavigationScrollView(title: "JLPT \(self.store.jlptLevel)", backBtnConfigAction: {
                 self.store.send(.backBtnTapped)
             }) {
                 
@@ -25,14 +25,22 @@ struct KanjiDetailView: View {
                     ForEach(Array(self.store.kanjiList.enumerated()), id: \.offset) { row, data in
                         MainStyleView {
                             Button {
-                                
+                                self.store.send(.kanjiSelected(row))
                             } label: {
                                 ExpandedView(alignment: .center) {
-                                    Text(data.kanji)
-                                        .foregroundStyle(Color.black)
-                                        .font(.system(size: 30, weight: .medium))
-                                        .padding(30)
+                                    VStack(spacing: 15) {
+                                        Text(data.kanji)
+                                            .foregroundStyle(Color.black)
+                                            .font(.system(size: 30, weight: .medium))
+                                        
+                                        if self.store.selectedKanjiRow == row {
+                                            Text(data.description)
+                                                .foregroundStyle(Color.gray)
+                                                .font(.system(size: 17, weight: .light))
+                                        }
+                                    }
                                 }
+                                .padding(30)
                                 .overlay {
                                     VStack {
                                         ExpandedView(alignment: .leading) {
@@ -51,7 +59,9 @@ struct KanjiDetailView: View {
                                             
                                             Spacer()
                                             
-                                            Image(systemName: "chevron.down")
+                                            Image(
+                                                systemName: self.store.selectedKanjiRow == row ?  "chevron.up"  : "chevron.down"
+                                            )
                                                 .resizable()
                                                 .frame(width: 15, height: 8)
                                                 .foregroundStyle(Color.black.opacity(0.4))
@@ -66,9 +76,10 @@ struct KanjiDetailView: View {
                 .padding(.vertical, 20)
             }
         }
+        .animation(.smooth(duration: 0.2), value: self.store.selectedKanjiRow)
     }
 }
 
 #Preview {
-    KanjiDetailView(store: .init(initialState: .init(kanjiList: [KanjiInfo(id: 1, kanji: "漢字", strokes: nil, jlptLevel: .N5, description: "설명설명")], selectedJLPTLevel: "N5"), reducer: {KanjiDetailFeature()}))
+    KanjiDetailView(store: .init(initialState: .init(kanjiList: [KanjiInfo(id: 1, kanji: "漢字", strokes: nil, jlptLevel: .N5, description: "설명설명")], jlptLevel: "N5"), reducer: {KanjiDetailFeature()}))
 }
