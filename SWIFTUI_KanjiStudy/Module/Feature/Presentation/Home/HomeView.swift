@@ -40,11 +40,23 @@ struct HomeView: View {
                 }
             }
             .padding(.horizontal, 20)
+            .padding(.bottom, 10)
             
-            VStack(spacing: 15) {
-                ExpandedView(alignment: .leading) {
+            VStack(spacing: 20) {
+                HStack {
                     Text("즐겨찾기 한 단어")
                         .font(.system(size: 17, weight: .semibold))
+                    
+                    Spacer()
+                    
+                    Button {
+                        
+                    } label: {
+                        Image(systemName: "trash")
+                            .resizable()
+                            .frame(width: 15, height: 17)
+                            .foregroundColor(.black)
+                    }
                 }
                 if self.store.favoriteWords.isEmpty {
                     ExpandedView(alignment: .center) {
@@ -54,7 +66,7 @@ struct HomeView: View {
                     }
                 } else {
                     ScrollView(.horizontal) {
-                        LazyHStack(spacing: 15) {
+                        LazyHStack(spacing: 20) {
                             ForEach(Array(self.store.favoriteWords.enumerated()), id: \.offset) { row, data in
                                 MainStyleView {
                                     Text(data)
@@ -77,7 +89,7 @@ struct HomeView: View {
             Spacer()
             
             VStack(spacing: 20) {
-                HStack(spacing: 10) {
+                HStack(spacing: 20) {
                     self.createMainButton(
                         title: "あいう",
                         subTitle: "히라가나"
