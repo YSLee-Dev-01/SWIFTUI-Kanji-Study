@@ -39,6 +39,22 @@ struct KanjiManager: KanjiManagerProtocol {
     func findKanjiDetail(by kanji: String) -> KanjiDetail? {
         return self.kanjiDetailDict[kanji]
     }
+    
+    func findKanjiGroup(by kanji: String) -> (kanjiList: [KanjiInfo], jlptLevel: String)? {
+        return self.kanjiDict.first(where: { _, kanjiList in
+            kanjiList.contains(where: {
+                $0.kanji == kanji
+            })
+        }).flatMap { level, kanjiList in
+            guard let kanjiIndex = kanjiList.firstIndex(where: { $0.kanji == kanji }) else { return nil }
+            
+            let pageSize = 10
+            let pageStartIndex = (kanjiIndex / pageSize) * pageSize
+            let pageEndIndex = min(pageStartIndex + pageSize, kanjiList.count)
+            
+            return (Array(kanjiList[pageStartIndex..<pageEndIndex]), level.rawValue)
+        }
+    }
 }
 
 // MARK: - extension
