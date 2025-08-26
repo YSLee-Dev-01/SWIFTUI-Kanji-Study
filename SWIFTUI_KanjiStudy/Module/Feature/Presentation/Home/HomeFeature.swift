@@ -25,7 +25,7 @@ struct HomeFeature: Reducer {
     }
     
     enum Delegate: Equatable {
-        case navigateToKanjiDetail(kanjiList: [KanjiInfo], jlptLevel: String)
+        case navigateToKanjiDetail(kanjiList: [KanjiInfo], jlptLevel: String, row: Int?)
     }
     
     var body: some Reducer<State, Action> {
@@ -34,7 +34,7 @@ struct HomeFeature: Reducer {
             case .favoriteWordTapped(let row):
                 let tappedData = state.favoriteWords[row]
                 guard let detailData = kanjiManager.findKanjiGroup(by: tappedData) else {return .none}
-                return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel)))
+                return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
                 
             default: return .none
             }

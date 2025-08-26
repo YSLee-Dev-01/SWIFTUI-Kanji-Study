@@ -25,14 +25,16 @@ struct KanjiDetailFeature: Reducer {
         var selectedKanjiDetailInfo: KanjiDetail?
         @Shared(.favoriteWords) fileprivate var favoriteWords: [String] = []
         
-        init(kanjiList: [KanjiInfo], jlptLevel: String) {
+        init(kanjiList: [KanjiInfo], jlptLevel: String, selectedKanjiRow: Int? = nil) {
             self.kanjiList = []
             self.jlptLevel = jlptLevel
             self.kanjiList =  kanjiList.map {.init(isFavoriteWord: favoriteWords.contains($0.kanji), kanjiInfo: $0)}
+            self.selectedKanjiRow = selectedKanjiRow
         }
     }
     
     enum Action: Equatable {
+        case onAppear
         case backBtnTapped
         case kanjiSelected(Int)
         case starBtnTapped(Int)
@@ -41,6 +43,12 @@ struct KanjiDetailFeature: Reducer {
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                if let row = state.selectedKanjiRow, state.selectedKanjiDetailInfo == nil {
+                    state.selectedKanjiDetailInfo =  kanjiManager.findKanjiDetail(by: state.kanjiList[row].kanjiInfo.kanji)
+                }
+                return .none
+                
             case .kanjiSelected(let row):
                 state.selectedKanjiRow = state.selectedKanjiRow == row ? nil : row
                 state.selectedKanjiDetailInfo = state.selectedKanjiRow == nil ?  nil : kanjiManager.findKanjiDetail(by: state.kanjiList[state.selectedKanjiRow!].kanjiInfo.kanji)
