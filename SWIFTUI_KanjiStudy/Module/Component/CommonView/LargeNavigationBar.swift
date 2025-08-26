@@ -12,7 +12,7 @@ struct LargeNavigationBar: View {
     let backBtnConfig: (imageName: String, imageSize: CGSize)?
     let backBtnConfigAction: (() -> Void)?
     
-    init(title: String, backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 9, height: 18)), backBtnConfigAction: (() -> ())? = nil) {
+    init(title: String, backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 9, height: 16)), backBtnConfigAction: (() -> ())? = nil) {
         self.title = title
         self.backBtnConfig = backBtnConfig
         self.backBtnConfigAction = backBtnConfigAction

@@ -16,7 +16,7 @@ struct StandardNavigationScrollView<Contents>: View where Contents: View {
     
     init(
         title: String,
-        backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 9, height: 18)),
+        backBtnConfig: (imageName: String, imageSize: CGSize)? = ("chevron.backward", .init(width: 9, height: 16)),
         backBtnConfigAction: (() -> ())? = nil,
         @ViewBuilder contents: @escaping () -> Contents
     ) {
