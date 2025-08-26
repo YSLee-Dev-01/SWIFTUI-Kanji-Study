@@ -62,6 +62,9 @@ struct HomeView: View {
                                         .foregroundColor(.black.opacity(0.9))
                                         .frame(width: 75, height: 75)
                                 }
+                                .onTapGesture {
+                                    self.store.send(.favoriteWordTapped(row))
+                                }
                             }
                         }
                     }
