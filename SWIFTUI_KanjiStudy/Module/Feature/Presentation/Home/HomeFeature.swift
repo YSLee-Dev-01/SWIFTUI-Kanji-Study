@@ -12,7 +12,7 @@ import ComposableArchitecture
 struct HomeFeature: Reducer {
     @ObservableState
     struct State: Equatable {
-        
+        @Shared(.favoriteWords) var favoriteWords: [String] = []
     }
     
     enum Action: Equatable {

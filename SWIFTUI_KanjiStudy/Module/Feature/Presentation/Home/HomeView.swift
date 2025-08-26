@@ -16,19 +16,62 @@ struct HomeView: View {
     }
     
     var body: some View {
-        VStack(spacing: 30) {
+        VStack(spacing: 20) {
             LargeNavigationBar(title: "홈", backBtnConfig: nil)
             
-            ExpandedView(alignment: .leading) {
-                Text("최근 본 단어")
-                    .font(.system(size: 20, weight: .semibold))
+            MainStyleView {
+                Button {
+                    
+                } label: {
+                    ExpandedView(alignment: .leading) {
+                        HStack(spacing: 10) {
+                            Image(systemName: "magnifyingglass")
+                                .resizable()
+                                .frame(width: 17, height: 17)
+                                .foregroundColor(.black.opacity(0.7))
+                                .padding(.leading, 15)
+                            
+                            Text("검색")
+                                .font(.system(size: 17, weight: .semibold))
+                                .foregroundColor(.black.opacity(0.7))
+                                .padding(.vertical, 15)
+                        }
+                    }
+                }
             }
             .padding(.horizontal, 20)
             
-            ScrollView {
-                Text("최근 본 단어가 없어요.")
-                    .font(.system(size: 18, weight: .semibold))
+            VStack(spacing: 15) {
+                ExpandedView(alignment: .leading) {
+                    Text("즐겨찾기 한 단어")
+                        .font(.system(size: 17, weight: .semibold))
+                }
+                if self.store.favoriteWords.isEmpty {
+                    ExpandedView(alignment: .center) {
+                        Text("외우고 싶은 단어를 저장해보세요.")
+                            .font(.system(size: 15, weight: .medium))
+                            .padding(.top, 10)
+                    }
+                } else {
+                    ScrollView(.horizontal) {
+                        LazyHStack(spacing: 15) {
+                            ForEach(Array(self.store.favoriteWords.enumerated()), id: \.offset) { row, data in
+                                MainStyleView {
+                                    Text(data)
+                                        .font(.system(size: 25, weight: .medium))
+                                        .foregroundColor(.black.opacity(0.9))
+                                        .frame(width: 75, height: 75)
+                                }
+                            }
+                        }
+                    }
+                    .scrollIndicators(.hidden)
+                    .frame(height: 75)
+                }
             }
+            .padding(.horizontal, 20)
+            
+            Spacer()
             
             VStack(spacing: 20) {
                 HStack(spacing: 10) {
