@@ -28,7 +28,7 @@ struct KanjiDetailView: View {
                             } label: {
                                 ExpandedView(alignment: .center) {
                                     VStack(spacing: 10) {
-                                        Text(data.kanji)
+                                        Text(data.kanjiInfo.kanji)
                                             .foregroundStyle(Color.black)
                                             .font(.system(size: 30, weight: .medium))
                                         
@@ -40,7 +40,7 @@ struct KanjiDetailView: View {
                                                     .padding(.bottom, 10)
                                             }
                                             
-                                            Text(data.description)
+                                            Text(data.kanjiInfo.description)
                                                 .foregroundStyle(Color.gray)
                                                 .font(.system(size: 15, weight: .light))
                                         }
@@ -58,10 +58,13 @@ struct KanjiDetailView: View {
                                         Spacer()
                                         
                                         HStack {
-                                            Image(systemName: "star")
+                                            Image(systemName: data.isFavoriteWord ? "star.fill" : "star")
                                                 .resizable()
                                                 .frame(width: 17, height: 17)
                                                 .foregroundStyle(Color.black.opacity(0.4))
+                                                .onTapGesture {
+                                                    self.store.send(.starBtnTapped(row))
+                                                }
                                             
                                             Spacer()
                                             
