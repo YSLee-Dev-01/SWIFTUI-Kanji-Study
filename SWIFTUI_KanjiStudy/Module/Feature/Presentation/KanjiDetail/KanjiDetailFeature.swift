@@ -62,7 +62,7 @@ struct KanjiDetailFeature: Reducer {
                     if let index = favorites.firstIndex(of: tappedData.kanjiInfo.kanji) {
                         favorites.remove(at: index)
                     } else {
-                        favorites.append(tappedData.kanjiInfo.kanji)
+                        favorites.insert(tappedData.kanjiInfo.kanji, at: 0)
                         favorites = Array(favorites.prefix(100))
                     }
                 }
