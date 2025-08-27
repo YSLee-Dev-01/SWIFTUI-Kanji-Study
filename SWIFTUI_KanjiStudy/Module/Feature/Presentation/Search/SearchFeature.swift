@@ -30,9 +30,14 @@ struct SearchFeature: Reducer {
             switch action {
             case .textInserted(let text):
                 state.insertedText = text
-                state.searchLoading = true
-                return .send(.searchRequest).debounce(id: "SearchRequest", for: 0.2, scheduler: DispatchQueue.main)
-                
+                if text.isEmpty {
+                    state.searchResult = []
+                    return .none
+                } else {
+                    state.searchLoading = true
+                    return .send(.searchRequest).debounce(id: "SearchRequest", for: 0.2, scheduler: DispatchQueue.main)
+                }
+               
             case .searchRequest:
                 state.searchResult = kanjiManager.findKanji(by: state.insertedText)
                 state.searchLoading = false
