@@ -143,7 +143,7 @@ struct KanjiListView: View {
             }
         }
         .padding(.vertical, 20)
-        .animation(.spring(duration: 0.2), value: self.store.selectedStep)
+        .animation(.smooth(duration: 0.2), value: self.store.selectedStep)
         .onAppear {
             self.store.send(.onAppear)
         }
