@@ -55,6 +55,15 @@ struct KanjiManager: KanjiManagerProtocol {
             return (Array(kanjiList[pageStartIndex..<pageEndIndex]), level.rawValue, (kanjiIndex % pageSize))
         }
     }
+    
+    func findKanji(by query: String) -> [String] {
+        let mainSearchResult = self.kanjiList.filter {$0.kanji.contains(query)}.map {$0.kanji}
+        let subSearchResult = self.kanjiDetailDict.filter { data in
+            data.key.contains(query) || data.value.totalYomi.contains(query)
+        }.map {$0.key}
+        
+        return Set(mainSearchResult + subSearchResult).sorted()
+    }
 }
 
 // MARK: - extension
