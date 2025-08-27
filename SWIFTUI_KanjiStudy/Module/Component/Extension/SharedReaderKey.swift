@@ -13,3 +13,15 @@ extension SharedReaderKey where Self == AppStorageKey<[String]> {
         appStorage("favoriteWords")
     }
 }
+
+extension Shared where Value == Array<String> {
+    mutating func toggleFavoriteWord(_ word: String) {
+        withLock { list in
+            if let firstIndex = list.firstIndex(of: word) {
+                list.remove(at: firstIndex)
+            } else {
+                list = Array([word] + list.prefix(100))
+            }
+        }
+    }
+}

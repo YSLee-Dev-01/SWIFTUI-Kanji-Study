@@ -54,17 +54,10 @@ struct SearchFeature: Reducer {
             case .starBtnTapped(let row):
                 var tappedData = state.searchResult[row]
                 tappedData.isFavoriteWord.toggle()
-                
-                state.$favoriteWords.withLock { favorites in
-                    if let index = favorites.firstIndex(of: tappedData.kanji) {
-                        favorites.remove(at: index)
-                    } else {
-                        favorites.insert(tappedData.kanji, at: 0)
-                        favorites = Array(favorites.prefix(100))
-                    }
-                }
-                
                 state.searchResult[row] = tappedData
+                
+                state.$favoriteWords.toggleFavoriteWord(tappedData.kanji)
+                
                 return .none
                 
             default: return .none

@@ -57,17 +57,10 @@ struct KanjiDetailFeature: Reducer {
             case .starBtnTapped(let row):
                 var tappedData = state.kanjiList[row]
                 tappedData.isFavoriteWord.toggle()
-                
-                state.$favoriteWords.withLock { favorites in
-                    if let index = favorites.firstIndex(of: tappedData.kanjiInfo.kanji) {
-                        favorites.remove(at: index)
-                    } else {
-                        favorites.insert(tappedData.kanjiInfo.kanji, at: 0)
-                        favorites = Array(favorites.prefix(100))
-                    }
-                }
-                
                 state.kanjiList[row] = tappedData
+                
+                state.$favoriteWords.toggleFavoriteWord(tappedData.kanjiInfo.kanji)
+                
                 return .none
                 
             default: return .none
