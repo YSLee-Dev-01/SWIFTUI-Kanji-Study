@@ -51,6 +51,7 @@ struct SearchView: View {
                         ForEach(Array(self.store.searchResult.enumerated()), id: \.offset) { row, data in
                             MainStyleView {
                                 Button {
+                                    self.focusField = false
                                     self.store.send(.resultRowTapped(row))
                                 } label: {
                                     ExpandedView(alignment: .center) {
@@ -88,7 +89,9 @@ struct SearchView: View {
         }
         .padding(.vertical, 20)
         .onAppear {
-            self.focusField = true
+            if self.store.insertedText.isEmpty {
+                self.focusField = true
+            }
         }
     }
 }
