@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct SearchView: View {
     @State private var store: StoreOf<SearchFeature>
+    @FocusState private var focusField
     
     init(store: StoreOf<SearchFeature>) {
         self.store = store
@@ -26,6 +27,7 @@ struct SearchView: View {
                     TextField(text: self.$store.insertedText.sending(\.textInserted)) {
                         Text("원하는 단어를 검색하세요.")
                     }
+                    .focused(self.$focusField)
                 }
                 .font(.system(size: 15, weight: .medium))
                 .foregroundColor(.black.opacity(0.7))
@@ -66,6 +68,9 @@ struct SearchView: View {
             }
         }
         .padding(.vertical, 20)
+        .onAppear {
+            self.focusField = true
+        }
     }
 }
 
