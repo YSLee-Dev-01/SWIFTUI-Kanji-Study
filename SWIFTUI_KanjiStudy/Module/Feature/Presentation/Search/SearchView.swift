@@ -22,6 +22,24 @@ struct SearchView: View {
                 self.store.send(.backBtnTapped)
             }
             
+            if self.store.state.insertedText.isEmpty {
+                MainStyleView(cornerRadius: 0) {
+                    ExpandedView(alignment: .center) {
+                        HStack(spacing: 5) {
+                            Image(systemName: "info.circle")
+                                .resizable()
+                                .frame(width: 14, height: 14)
+                                .foregroundStyle(Color.black.opacity(0.6))
+                            
+                            Text("한자 및 히라가나만 검색할 수 있어요.")
+                                .foregroundStyle(Color.black.opacity(0.6))
+                                .font(.system(size: 14, weight: .medium))
+                        }
+                        .frame(height: 40)
+                    }
+                }
+            }
+            
             MainStyleView {
                 ExpandedView(alignment: .leading) {
                     TextField(text: self.$store.insertedText.sending(\.textInserted)) {
@@ -34,6 +52,7 @@ struct SearchView: View {
                 .padding(15)
             }
             .padding(.horizontal, 20)
+            
             
             ScrollView {
                 if !self.store.insertedText.isEmpty && self.store.searchResult.isEmpty && !self.store.searchLoading {
