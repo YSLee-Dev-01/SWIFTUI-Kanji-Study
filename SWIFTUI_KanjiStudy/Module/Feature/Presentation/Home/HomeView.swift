@@ -32,7 +32,7 @@ struct HomeView: View {
                                 .padding(.leading, 15)
                             
                             Text("검색")
-                                .font(.system(size: 17, weight: .medium))
+                                .font(.system(size: 15, weight: .medium))
                                 .foregroundColor(.black.opacity(0.7))
                                 .padding(.vertical, 15)
                         }
@@ -71,7 +71,7 @@ struct HomeView: View {
                                 MainStyleView {
                                     Text(data)
                                         .font(.system(size: 25, weight: .medium))
-                                        .foregroundColor(.black.opacity(0.9))
+                                        .foregroundColor(.black)
                                         .frame(width: 75, height: 75)
                                 }
                                 .onTapGesture {
