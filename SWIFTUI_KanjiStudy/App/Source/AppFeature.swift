@@ -47,7 +47,8 @@ struct AppFeature: Reducer {
                 state.path.append(.kanjiDetailState(.init(kanjiList: list, jlptLevel: level)))
                 return .none
                 
-            case .homeAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level, row: let row))):
+            case .homeAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level, row: let row))),
+                    .path(.element(id: _, action: .searchAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level, row: let row))))):
                 state.path.append(.kanjiDetailState(.init(kanjiList: list, jlptLevel: level, selectedKanjiRow: row)))
                 return .none
                 

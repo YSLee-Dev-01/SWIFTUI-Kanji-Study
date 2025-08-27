@@ -51,7 +51,7 @@ struct SearchView: View {
                         ForEach(Array(self.store.searchResult.enumerated()), id: \.offset) { row, data in
                             MainStyleView {
                                 Button {
-                                    
+                                    self.store.send(.resultRowTapped(row))
                                 } label: {
                                     ExpandedView(alignment: .center) {
                                         Text("\(data.kanji)")

@@ -31,12 +31,23 @@ struct SearchFeature: Reducer {
         case textInserted(String)
         case searchRequest
         case starBtnTapped(Int)
+        case resultRowTapped(Int)
+        
+        case delegate(Delegate)
+    }
+    
+    enum Delegate: Equatable {
+        case navigateToKanjiDetail(kanjiList: [KanjiInfo], jlptLevel: String, row: Int?)
     }
     
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
             case .textInserted(let text):
+                if state.insertedText == text {
+                    return .none
+                }
+                
                 state.insertedText = text
                 if text.isEmpty {
                     state.searchResult = []
@@ -59,6 +70,11 @@ struct SearchFeature: Reducer {
                 state.$favoriteWords.toggleFavoriteWord(tappedData.kanji)
                 
                 return .none
+                
+            case .resultRowTapped(let row):
+                let tappedData = state.searchResult[row]
+                guard let detailData = kanjiManager.findKanjiGroup(by: tappedData.kanji) else {return .none}
+                return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
                 
             default: return .none
             }
