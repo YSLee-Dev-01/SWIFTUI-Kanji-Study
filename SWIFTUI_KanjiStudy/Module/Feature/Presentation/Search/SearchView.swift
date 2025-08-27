@@ -54,10 +54,29 @@ struct SearchView: View {
                                     
                                 } label: {
                                     ExpandedView(alignment: .center) {
-                                        Text("\(data)")
+                                        Text("\(data.kanji)")
                                             .foregroundStyle(Color.black)
                                             .font(.system(size: 22, weight: .medium))
-                                            .frame(height: 65)
+                                            .frame(height: 75)
+                                    }
+                                    .overlay {
+                                        VStack {
+                                            Spacer()
+                                            
+                                            ExpandedView(alignment: .leading) {
+                                                Image(systemName: data.isFavoriteWord ? "star.fill" : "star")
+                                                    .resizable()
+                                                    .frame(width: 17, height: 17)
+                                                    .foregroundStyle(Color.black.opacity(0.4))
+                                                    .onTapGesture {
+                                                        self.store.send(.starBtnTapped(row))
+                                                    }
+                                            }
+                                            
+                                            Spacer()
+                                                .frame(height: 15)
+                                        }
+                                        .padding(.leading, 15)
                                     }
                                 }
                             }
