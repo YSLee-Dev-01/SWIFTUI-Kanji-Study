@@ -32,7 +32,7 @@ struct HomeView: View {
                                 .padding(.leading, 15)
                             
                             Text("검색")
-                                .font(.system(size: 17, weight: .semibold))
+                                .font(.system(size: 17, weight: .medium))
                                 .foregroundColor(.black.opacity(0.7))
                                 .padding(.vertical, 15)
                         }
@@ -55,7 +55,7 @@ struct HomeView: View {
                         Image(systemName: "trash")
                             .resizable()
                             .frame(width: 15, height: 17)
-                            .foregroundColor(.black)
+                            .foregroundColor(.black.opacity(0.7))
                     }
                 }
                 if self.store.favoriteWords.isEmpty {
