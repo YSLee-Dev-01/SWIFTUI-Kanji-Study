@@ -22,37 +22,42 @@ struct SearchView: View {
                 self.store.send(.backBtnTapped)
             }
             
-            if self.store.state.insertedText.isEmpty {
-                MainStyleView(cornerRadius: 0) {
-                    ExpandedView(alignment: .center) {
-                        HStack(spacing: 5) {
-                            Image(systemName: "info.circle")
-                                .resizable()
-                                .frame(width: 14, height: 14)
-                                .foregroundStyle(Color.black.opacity(0.6))
-                            
-                            Text("한자 및 히라가나만 검색할 수 있어요.")
-                                .foregroundStyle(Color.black.opacity(0.6))
-                                .font(.system(size: 14, weight: .medium))
+            Group {
+                VStack(spacing: 20) {
+                    if self.store.state.insertedText.isEmpty {
+                        MainStyleView(cornerRadius: 0) {
+                            ExpandedView(alignment: .center) {
+                                HStack(spacing: 5) {
+                                    Image(systemName: "info.circle")
+                                        .resizable()
+                                        .frame(width: 14, height: 14)
+                                        .foregroundStyle(Color.black.opacity(0.6))
+                                    
+                                    Text("한자 및 히라가나만 검색할 수 있어요.")
+                                        .foregroundStyle(Color.black.opacity(0.6))
+                                        .font(.system(size: 14, weight: .medium))
+                                }
+                                .frame(height: 40)
+                            }
                         }
-                        .frame(height: 40)
+                        .transition(.offset(x: 0, y : -25).combined(with: .opacity))
                     }
+                    
+                    MainStyleView(cornerRadius: 15) {
+                        ExpandedView(alignment: .leading) {
+                            TextField(text: self.$store.insertedText.sending(\.textInserted)) {
+                                Text("원하는 단어를 검색하세요.")
+                            }
+                            .focused(self.$focusField)
+                        }
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundColor(.black.opacity(0.7))
+                        .padding(15)
+                    }
+                    .padding(.horizontal, 20)
                 }
             }
-            
-            MainStyleView {
-                ExpandedView(alignment: .leading) {
-                    TextField(text: self.$store.insertedText.sending(\.textInserted)) {
-                        Text("원하는 단어를 검색하세요.")
-                    }
-                    .focused(self.$focusField)
-                }
-                .font(.system(size: 15, weight: .medium))
-                .foregroundColor(.black.opacity(0.7))
-                .padding(15)
-            }
-            .padding(.horizontal, 20)
-            
+            .animation(.smooth(duration: 0.2), value: self.store.insertedText)
             
             ScrollView {
                 if !self.store.insertedText.isEmpty && self.store.searchResult.isEmpty && !self.store.searchLoading {
