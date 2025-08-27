@@ -16,7 +16,11 @@ struct SearchView: View {
     }
     
     var body: some View {
-        Text("SearchView")
+        StandardNavigationScrollView(title: "검색", backBtnConfigAction: {
+            self.store.send(.backBtnTapped)
+        }) {
+            Text("SearchView")
+        }
     }
 }
 

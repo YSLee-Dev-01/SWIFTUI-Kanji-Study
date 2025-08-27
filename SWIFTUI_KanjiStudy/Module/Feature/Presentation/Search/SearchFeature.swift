@@ -17,7 +17,7 @@ struct SearchFeature: Reducer {
     }
     
     enum Action: Equatable {
-        
+        case backBtnTapped
     }
     
     var body: some Reducer<State, Action> {

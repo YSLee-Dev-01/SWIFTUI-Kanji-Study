@@ -21,7 +21,7 @@ struct HomeView: View {
             
             MainStyleView {
                 Button {
-                    
+                    self.store.send(.searchBtnTapped)
                 } label: {
                     ExpandedView(alignment: .leading) {
                         HStack(spacing: 10) {

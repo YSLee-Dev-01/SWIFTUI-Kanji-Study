@@ -38,7 +38,8 @@ struct AppFeature: Reducer {
                 
             case .path(.element(id: _, action: .kanaAction(.backBtnTapped))),
                     .path(.element(id: _, action: .kanjiListAction(.backBtnTapped))),
-                    .path(.element(id: _, action: .kanjiDetailAction(.backBtnTapped))):
+                    .path(.element(id: _, action: .kanjiDetailAction(.backBtnTapped))),
+                    .path(.element(id: _, action: .searchAction(.backBtnTapped))):
                 state.path.removeLast()
                 return .none
                 
@@ -46,8 +47,12 @@ struct AppFeature: Reducer {
                 state.path.append(.kanjiDetailState(.init(kanjiList: list, jlptLevel: level)))
                 return .none
                 
-            case   .homeAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level, row: let row))):
+            case .homeAction(.delegate(.navigateToKanjiDetail(kanjiList: let list, jlptLevel: let level, row: let row))):
                 state.path.append(.kanjiDetailState(.init(kanjiList: list, jlptLevel: level, selectedKanjiRow: row)))
+                return .none
+                
+            case .homeAction(.searchBtnTapped):
+                state.path.append(.searchState(.init()))
                 return .none
                 
             default: return .none
@@ -67,12 +72,14 @@ extension AppFeature {
             case kanaState(KanaFeature.State)
             case kanjiListState(KanjiListFeature.State)
             case kanjiDetailState(KanjiDetailFeature.State)
+            case searchState(SearchFeature.State)
         }
         
         enum Action: Equatable {
             case kanaAction(KanaFeature.Action)
             case kanjiListAction(KanjiListFeature.Action)
             case kanjiDetailAction(KanjiDetailFeature.Action)
+            case searchAction(SearchFeature.Action)
         }
         
         var body: some Reducer<State, Action> {
@@ -86,6 +93,10 @@ extension AppFeature {
             
             Scope(state: \.kanjiDetailState, action: \.kanjiDetailAction) {
                 KanjiDetailFeature()
+            }
+            
+            Scope(state: \.searchState, action: \.searchAction) {
+                SearchFeature()
             }
         }
     }

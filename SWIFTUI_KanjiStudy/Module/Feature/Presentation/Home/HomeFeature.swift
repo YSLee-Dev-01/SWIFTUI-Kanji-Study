@@ -21,6 +21,8 @@ struct HomeFeature: Reducer {
         case kanaBtnTapped(kanaType: KanaType)
         case kanjiBtnTapped
         case favoriteWordTapped(Int)
+        case searchBtnTapped
+        
         case delegate(Delegate)
     }
     
