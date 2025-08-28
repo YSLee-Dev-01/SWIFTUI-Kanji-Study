@@ -60,56 +60,63 @@ struct SearchView: View {
             .animation(.smooth(duration: 0.2), value: self.store.insertedText)
             
             ScrollView {
-                if !self.store.insertedText.isEmpty && self.store.searchResult.isEmpty && !self.store.searchLoading {
-                    Text("검색 결과가 없어요.")
-                        .font(.system(size: 17, weight: .semibold))
-                        .foregroundColor(.black.opacity(0.7))
-                    
-                } else if self.store.searchLoading {
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                        .padding()
-                    
-                }  else {
-                    LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
-                        ForEach(Array(self.store.searchResult.enumerated()), id: \.offset) { row, data in
-                            MainStyleView {
-                                Button {
-                                    self.focusField = false
-                                    self.store.send(.resultRowTapped(row))
-                                } label: {
-                                    ExpandedView(alignment: .center) {
-                                        Text("\(data.kanji)")
-                                            .foregroundStyle(Color.black)
-                                            .font(.system(size: 22, weight: .medium))
-                                            .frame(height: 75)
-                                    }
-                                    .overlay {
-                                        VStack {
-                                            Spacer()
-                                            
-                                            ExpandedView(alignment: .leading) {
-                                                Image(systemName: data.isFavoriteWord ? "star.fill" : "star")
-                                                    .resizable()
-                                                    .frame(width: 17, height: 17)
-                                                    .foregroundStyle(Color.black.opacity(0.4))
-                                                    .onTapGesture {
-                                                        self.store.send(.starBtnTapped(row))
-                                                    }
-                                            }
-                                            
-                                            Spacer()
-                                                .frame(height: 15)
+                Group {
+                    if !self.store.insertedText.isEmpty && self.store.searchResult.isEmpty && !self.store.searchLoading {
+                        Text("검색 결과가 없어요.")
+                            .font(.system(size: 17, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.7))
+                            .transition(.offset(x: 0, y : 25).combined(with: .opacity))
+                        
+                    } else if self.store.searchLoading {
+                        ProgressView()
+                            .progressViewStyle(.circular)
+                            .padding()
+                            .transition(.offset(x: 0, y : 25).combined(with: .opacity))
+                        
+                    }  else {
+                        LazyVGrid(columns: [GridItem(.flexible(), spacing: 20), GridItem(.flexible(), spacing: 20)], spacing: 20) {
+                            ForEach(Array(self.store.searchResult.enumerated()), id: \.offset) { row, data in
+                                MainStyleView {
+                                    Button {
+                                        self.focusField = false
+                                        self.store.send(.resultRowTapped(row))
+                                    } label: {
+                                        ExpandedView(alignment: .center) {
+                                            Text("\(data.kanji)")
+                                                .foregroundStyle(Color.black)
+                                                .font(.system(size: 22, weight: .medium))
+                                                .frame(height: 75)
                                         }
-                                        .padding(.leading, 15)
+                                        .overlay {
+                                            VStack {
+                                                Spacer()
+                                                
+                                                ExpandedView(alignment: .leading) {
+                                                    Image(systemName: data.isFavoriteWord ? "star.fill" : "star")
+                                                        .resizable()
+                                                        .frame(width: 17, height: 17)
+                                                        .foregroundStyle(Color.black.opacity(0.4))
+                                                        .onTapGesture {
+                                                            self.store.send(.starBtnTapped(row))
+                                                        }
+                                                }
+                                                
+                                                Spacer()
+                                                    .frame(height: 15)
+                                            }
+                                            .padding(.leading, 15)
+                                        }
                                     }
                                 }
                             }
                         }
+                        .padding(.horizontal, 20)
+                        .transition(.offset(x: 0, y : 25).combined(with: .opacity))
                     }
-                    .padding(.horizontal, 20)
                 }
+                .frame(maxWidth: .infinity)
             }
+            .animation(.smooth(duration: 0.2), value: self.store.searchResult)
         }
         .padding(.vertical, 20)
         .onAppear {
