@@ -68,34 +68,39 @@ struct HomeView: View {
                     }
                 } else {
                     ScrollView(.horizontal) {
-                        LazyHStack(spacing: 20) {
-                            ForEach(Array(self.store.favoriteWords.enumerated()), id: \.offset) { row, data in
-                                MainStyleView {
-                                    Text(data)
-                                        .font(.system(size: 25, weight: .medium))
-                                        .foregroundColor(.black)
-                                        .frame(width: 75, height: 75)
-                                }
-                                .overlay {
-                                    if self.store.isEditMode {
-                                        ExpandedView(alignment: .trailing) {
-                                            VStack {
-                                                Image(systemName: "xmark")
-                                                    .resizable()
-                                                    .frame(width: 10, height: 10)
-                                                    .foregroundColor(.black)
-                                                
-                                                Spacer()
+                        Group {
+                            LazyHStack(spacing: 20) {
+                                ForEach(Array(self.store.favoriteWords.enumerated()), id: \.offset) { row, data in
+                                    MainStyleView {
+                                        Text(data)
+                                            .font(.system(size: 25, weight: .medium))
+                                            .foregroundColor(.black)
+                                            .frame(width: 75, height: 75)
+                                    }
+                                    .overlay {
+                                        if self.store.isEditMode {
+                                            ExpandedView(alignment: .trailing) {
+                                                VStack {
+                                                    Image(systemName: "xmark")
+                                                        .resizable()
+                                                        .frame(width: 10, height: 10)
+                                                        .foregroundColor(.black)
+                                                    
+                                                    Spacer()
+                                                }
+                                                .padding(7)
                                             }
-                                            .padding(7)
                                         }
                                     }
-                                }
-                                .onTapGesture {
-                                    self.store.send(.favoriteWordTapped(row))
+                                    .onTapGesture {
+                                        self.store.send(.favoriteWordTapped(row))
+                                    }
+                                    .transition(.offset(x: -25, y : 0).combined(with: .opacity))
                                 }
                             }
                         }
+                        .animation(.smooth(duration: 0.2), value: self.store.isEditMode)
+                        .animation(.smooth(duration: 0.2), value: self.store.favoriteWords)
                     }
                     .scrollIndicators(.hidden)
                     .frame(height: 75)
