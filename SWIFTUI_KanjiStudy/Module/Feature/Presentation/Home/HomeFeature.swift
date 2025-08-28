@@ -40,6 +40,9 @@ struct HomeFeature: Reducer {
                 
                 if state.isEditMode {
                     state.$favoriteWords.toggleFavoriteWord(tappedData)
+                    if state.favoriteWords.isEmpty {
+                        state.isEditMode = false
+                    }
                     return .none
                 } else {
                     guard let detailData = kanjiManager.findKanjiGroup(by: tappedData) else {return .none}
