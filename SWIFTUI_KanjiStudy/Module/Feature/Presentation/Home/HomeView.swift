@@ -49,13 +49,15 @@ struct HomeView: View {
                     
                     Spacer()
                     
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "trash")
-                            .resizable()
-                            .frame(width: 15, height: 17)
-                            .foregroundColor(.black.opacity(0.7))
+                    if !self.store.favoriteWords.isEmpty {
+                        Button {
+                            self.store.send(.editBtnTapped)
+                        } label: {
+                            Text(self.store.isEditMode ? "완료" : "삭제")
+                                .font(.system(size: 15, weight: .light))
+                                .foregroundColor(.black)
+                                .padding(10)
+                        }
                     }
                 }
                 if self.store.favoriteWords.isEmpty {
@@ -73,6 +75,21 @@ struct HomeView: View {
                                         .font(.system(size: 25, weight: .medium))
                                         .foregroundColor(.black)
                                         .frame(width: 75, height: 75)
+                                }
+                                .overlay {
+                                    if self.store.isEditMode {
+                                        ExpandedView(alignment: .trailing) {
+                                            VStack {
+                                                Image(systemName: "xmark")
+                                                    .resizable()
+                                                    .frame(width: 10, height: 10)
+                                                    .foregroundColor(.black)
+                                                
+                                                Spacer()
+                                            }
+                                            .padding(7)
+                                        }
+                                    }
                                 }
                                 .onTapGesture {
                                     self.store.send(.favoriteWordTapped(row))

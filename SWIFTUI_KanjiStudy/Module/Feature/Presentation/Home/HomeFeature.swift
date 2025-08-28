@@ -14,6 +14,7 @@ struct HomeFeature: Reducer {
     
     @ObservableState
     struct State: Equatable {
+        var isEditMode = false
         @Shared(.favoriteWords) var favoriteWords: [String] = []
     }
     
@@ -22,6 +23,7 @@ struct HomeFeature: Reducer {
         case kanjiBtnTapped
         case favoriteWordTapped(Int)
         case searchBtnTapped
+        case editBtnTapped
         
         case delegate(Delegate)
     }
@@ -35,8 +37,18 @@ struct HomeFeature: Reducer {
             switch action {
             case .favoriteWordTapped(let row):
                 let tappedData = state.favoriteWords[row]
-                guard let detailData = kanjiManager.findKanjiGroup(by: tappedData) else {return .none}
-                return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
+                
+                if state.isEditMode {
+                    state.$favoriteWords.toggleFavoriteWord(tappedData)
+                    return .none
+                } else {
+                    guard let detailData = kanjiManager.findKanjiGroup(by: tappedData) else {return .none}
+                    return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
+                }
+                
+            case .editBtnTapped:
+                state.isEditMode.toggle()
+                return .none
                 
             default: return .none
             }
