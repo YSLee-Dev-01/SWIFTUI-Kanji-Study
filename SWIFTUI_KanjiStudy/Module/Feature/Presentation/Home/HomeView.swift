@@ -65,6 +65,7 @@ struct HomeView: View {
                         Text("외우고 싶은 단어를 저장해보세요.")
                             .font(.system(size: 15, weight: .medium))
                             .padding(.top, 10)
+                            .frame(height: 75)
                     }
                 } else {
                     ScrollView(.horizontal) {
@@ -108,6 +109,42 @@ struct HomeView: View {
             }
             .padding(.horizontal, 20)
             
+            VStack(spacing: 20) {
+                ExpandedView(alignment: .leading) {
+                    Text("추천 한자")
+                        .font(.system(size: 17, weight: .semibold))
+                }
+                
+                MainStyleView {
+                    GeometryReader { geometry in
+                        ScrollView(.horizontal) {
+                            HStack(spacing: 0) {
+                                ForEach(Array(self.store.recommendKanjiList.enumerated()), id: \.offset) { _, row in
+                                    HStack(spacing: 0) {
+                                        ForEach(row, id: \.kanji) { data in
+                                            Text("\(data.kanji)")
+                                                .font(.system(size: 25, weight: .medium))
+                                                .foregroundColor(.white)
+                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                .background {
+                                                    RoundedRectangle(cornerRadius: 15)
+                                                        .fill(Color.black.opacity(0.3))
+                                                        .padding(12)
+                                                }
+                                        }
+                                    }
+                                    .frame(width: geometry.size.width, height: 80, alignment: .center)
+                                }
+                            }
+                        }
+                        .scrollTargetBehavior(.paging)
+                        .scrollIndicators(.hidden)
+                    }
+                    .frame(height: 80)
+                }
+            }
+            .padding(.horizontal, 20)
+            
             Spacer()
             
             VStack(spacing: 20) {
@@ -137,6 +174,9 @@ struct HomeView: View {
             .padding(.horizontal, 20)
         }
         .padding(.vertical, 20)
+        .onAppear {
+            self.store.send(.onAppear)
+        }
     }
 }
 

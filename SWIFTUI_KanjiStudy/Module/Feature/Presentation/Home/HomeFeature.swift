@@ -15,6 +15,7 @@ struct HomeFeature: Reducer {
     @ObservableState
     struct State: Equatable {
         var isEditMode = false
+        var recommendKanjiList: [[KanjiInfo]] = []
         @Shared(.favoriteWords) var favoriteWords: [String] = []
     }
     
@@ -24,6 +25,7 @@ struct HomeFeature: Reducer {
         case favoriteWordTapped(Int)
         case searchBtnTapped
         case editBtnTapped
+        case onAppear
         
         case delegate(Delegate)
     }
@@ -51,6 +53,17 @@ struct HomeFeature: Reducer {
                 
             case .editBtnTapped:
                 state.isEditMode.toggle()
+                return .none
+                
+            case .onAppear:
+                var transformedData = [[KanjiInfo]]()
+                let list = kanjiManager.recommendKanjiList(exceptionKanjiList: state.favoriteWords)
+                
+                for index in stride(from: 0, to: list.count, by: 5) {
+                    transformedData.append(Array(list[index ..< min(index + 5, list.count)]))
+                }
+                state.recommendKanjiList = transformedData
+                
                 return .none
                 
             default: return .none
