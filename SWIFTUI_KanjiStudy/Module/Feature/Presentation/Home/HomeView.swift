@@ -56,7 +56,7 @@ struct HomeView: View {
                             Text(self.store.isEditMode ? "완료" : "삭제")
                                 .font(.system(size: 15, weight: .light))
                                 .foregroundColor(.black)
-                                .padding(10)
+                                .padding(.horizontal, 10)
                         }
                     }
                 }
