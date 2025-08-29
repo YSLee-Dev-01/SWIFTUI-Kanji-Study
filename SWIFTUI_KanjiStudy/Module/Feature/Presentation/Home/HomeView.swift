@@ -63,7 +63,7 @@ struct HomeView: View {
                 if self.store.favoriteWords.isEmpty {
                     ExpandedView(alignment: .center) {
                         Text("외우고 싶은 단어를 저장해보세요.")
-                            .font(.system(size: 15, weight: .medium))
+                            .font(.system(size: 16, weight: .medium))
                             .padding(.top, 10)
                             .frame(height: 75)
                     }
@@ -119,9 +119,9 @@ struct HomeView: View {
                     GeometryReader { geometry in
                         ScrollView(.horizontal) {
                             HStack(spacing: 0) {
-                                ForEach(Array(self.store.recommendKanjiList.enumerated()), id: \.offset) { _, row in
+                                ForEach(Array(self.store.recommendKanjiList.enumerated()), id: \.offset) { section, row in
                                     HStack(spacing: 0) {
-                                        ForEach(row, id: \.kanji) { data in
+                                        ForEach(Array(row.enumerated()), id: \.offset) { row, data in
                                             Text("\(data.kanji)")
                                                 .font(.system(size: 25, weight: .medium))
                                                 .foregroundColor(.white)
@@ -130,6 +130,9 @@ struct HomeView: View {
                                                     RoundedRectangle(cornerRadius: 15)
                                                         .fill(Color.black.opacity(0.3))
                                                         .padding(12)
+                                                }
+                                                .onTapGesture {
+                                                    self.store.send(.recommendWordTapped(IndexPath(row: row, section: section)))
                                                 }
                                         }
                                     }

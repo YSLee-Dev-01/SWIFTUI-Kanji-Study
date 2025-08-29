@@ -26,6 +26,7 @@ struct HomeFeature: Reducer {
         case searchBtnTapped
         case editBtnTapped
         case onAppear
+        case recommendWordTapped(IndexPath)
         
         case delegate(Delegate)
     }
@@ -65,6 +66,11 @@ struct HomeFeature: Reducer {
                 state.recommendKanjiList = transformedData
                 
                 return .none
+                
+            case .recommendWordTapped(let indexPath):
+                let tappedData = state.recommendKanjiList[indexPath.section][indexPath.row]
+                guard let detailData = kanjiManager.findKanjiGroup(by: tappedData.kanji) else {return .none}
+                return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
                 
             default: return .none
             }
