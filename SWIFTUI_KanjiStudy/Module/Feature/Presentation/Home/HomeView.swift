@@ -145,25 +145,21 @@ struct HomeView: View {
             }
             .padding(.horizontal, 20)
             
-            Spacer()
-            
             VStack(spacing: 20) {
-                HStack(spacing: 20) {
-                    self.createMainButton(
-                        title: "あいう",
-                        subTitle: "히라가나"
-                    ){
-                        self.store.send(.kanaBtnTapped(kanaType: .hiragana))
-                    }
-                    
-                    self.createMainButton(
-                        title: "アイウ",
-                        subTitle: "가타카나"
-                    ){
-                        self.store.send(.kanaBtnTapped(kanaType: .katakana))
-                    }
+                self.createMainButton(
+                    title: "あいう",
+                    subTitle: "히라가나"
+                ){
+                    self.store.send(.kanaBtnTapped(kanaType: .hiragana))
                 }
-               
+                
+                self.createMainButton(
+                    title: "アイウ",
+                    subTitle: "가타카나"
+                ){
+                    self.store.send(.kanaBtnTapped(kanaType: .katakana))
+                }
+                
                 self.createMainButton(
                     title: "漢字単語",
                     subTitle: "한자"
@@ -194,6 +190,7 @@ private extension HomeView {
                     Text(title)
                         .font(.system(size: 50, weight: .ultraLight))
                         .foregroundStyle(Color.gray.opacity(0.15))
+                        .frame(maxHeight: .infinity)
                 }
                 .overlay {
                     Text(subTitle)
@@ -201,7 +198,7 @@ private extension HomeView {
                         .foregroundStyle(Color.black.opacity(0.9))
                 }
             }
-            .frame(height: 100)
+            .contentShape(Rectangle())
         }
     }
 }
