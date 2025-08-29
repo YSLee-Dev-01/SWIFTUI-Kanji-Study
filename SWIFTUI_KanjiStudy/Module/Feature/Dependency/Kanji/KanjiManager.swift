@@ -64,6 +64,10 @@ struct KanjiManager: KanjiManagerProtocol {
         
         return Set(mainSearchResult + subSearchResult).sorted()
     }
+    
+    func recommendKanjiList(exceptionKanjiList: [String], _ count: Int) -> [KanjiInfo] {
+        return Array(self.kanjiList.filter {!exceptionKanjiList.contains($0.kanji)}.shuffled().prefix(count))
+    }
 }
 
 // MARK: - extension
