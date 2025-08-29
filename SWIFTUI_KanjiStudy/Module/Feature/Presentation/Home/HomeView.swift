@@ -117,31 +117,39 @@ struct HomeView: View {
                 
                 MainStyleView {
                     GeometryReader { geometry in
-                        ScrollView(.horizontal) {
-                            HStack(spacing: 0) {
-                                ForEach(Array(self.store.recommendKanjiList.enumerated()), id: \.offset) { section, row in
-                                    HStack(spacing: 0) {
-                                        ForEach(Array(row.enumerated()), id: \.offset) { row, data in
-                                            Text("\(data.kanji)")
-                                                .font(.system(size: 25, weight: .medium))
-                                                .foregroundColor(.white)
-                                                .frame(maxWidth: .infinity, maxHeight: .infinity)
-                                                .background {
-                                                    RoundedRectangle(cornerRadius: 15)
-                                                        .fill(Color.black.opacity(0.3))
-                                                        .padding(12)
-                                                }
-                                                .onTapGesture {
-                                                    self.store.send(.recommendWordTapped(IndexPath(row: row, section: section)))
+                        ScrollViewReader { proxy in
+                            ScrollView(.horizontal) {
+                                HStack(spacing: 0) {
+                                    ForEach(Array(self.store.recommendKanjiList.enumerated()), id: \.offset) { section, sectionData in
+                                        HStack(spacing: 0) {
+                                                ForEach(Array(sectionData.enumerated()), id: \.offset) { row, data in
+                                                    Text("\(data.kanji)")
+                                                        .font(.system(size: 25, weight: .medium))
+                                                        .foregroundColor(.white)
+                                                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                                        .background {
+                                                            RoundedRectangle(cornerRadius: 15)
+                                                                .fill(Color.black.opacity(0.3))
+                                                                .padding(12)
+                                                        }
+                                                        .onTapGesture {
+                                                            self.store.send(.recommendWordTapped(IndexPath(row: row, section: section)))
+                                                        }
                                                 }
                                         }
+                                        .frame(width: geometry.size.width, height: 80, alignment: .center)
+                                        .id(section)
                                     }
-                                    .frame(width: geometry.size.width, height: 80, alignment: .center)
+                                }
+                            }
+                            .scrollTargetBehavior(.paging)
+                            .scrollIndicators(.hidden)
+                            .onChange(of: self.store.recommendShowIndex) { _, value in
+                                withAnimation(.smooth(duration: 0.2)) {
+                                    proxy.scrollTo(value, anchor: .center)
                                 }
                             }
                         }
-                        .scrollTargetBehavior(.paging)
-                        .scrollIndicators(.hidden)
                     }
                     .frame(height: 80)
                 }

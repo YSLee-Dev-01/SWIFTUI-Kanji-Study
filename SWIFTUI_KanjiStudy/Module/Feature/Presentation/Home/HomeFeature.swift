@@ -11,11 +11,14 @@ import ComposableArchitecture
 @Reducer
 struct HomeFeature: Reducer {
     @Dependency(\.kanjiManager) private var kanjiManager
+    @Dependency(\.continuousClock) var clock
     
     @ObservableState
     struct State: Equatable {
         var isEditMode = false
         var recommendKanjiList: [[KanjiInfo]] = []
+        var recommendShowIndex = 0
+        
         @Shared(.favoriteWords) var favoriteWords: [String] = []
     }
     
@@ -27,6 +30,7 @@ struct HomeFeature: Reducer {
         case editBtnTapped
         case onAppear
         case recommendWordTapped(IndexPath)
+        case timerTicked
         
         case delegate(Delegate)
     }
@@ -35,9 +39,33 @@ struct HomeFeature: Reducer {
         case navigateToKanjiDetail(kanjiList: [KanjiInfo], jlptLevel: String, row: Int?)
     }
     
+    enum TimerID: Hashable {
+        case recommend
+    }
+    
     var body: some Reducer<State, Action> {
         Reduce { state, action in
             switch action {
+            case .onAppear:
+                var transformedData = [[KanjiInfo]]()
+                let list = kanjiManager.recommendKanjiList(exceptionKanjiList: state.favoriteWords)
+                
+                for index in stride(from: 0, to: list.count, by: 5) {
+                    transformedData.append(Array(list[index ..< min(index + 5, list.count)]))
+                }
+                state.recommendKanjiList = transformedData
+                state.recommendShowIndex = 0
+                
+                return .concatenate([
+                    .cancel(id: TimerID.recommend),
+                    .run { send in
+                        for await _ in self.clock.timer(interval: .seconds(3)) {
+                            await send(.timerTicked)
+                        }
+                    }
+                        .cancellable(id: TimerID.recommend)
+                ])
+                
             case .favoriteWordTapped(let row):
                 let tappedData = state.favoriteWords[row]
                 
@@ -56,21 +84,14 @@ struct HomeFeature: Reducer {
                 state.isEditMode.toggle()
                 return .none
                 
-            case .onAppear:
-                var transformedData = [[KanjiInfo]]()
-                let list = kanjiManager.recommendKanjiList(exceptionKanjiList: state.favoriteWords)
-                
-                for index in stride(from: 0, to: list.count, by: 5) {
-                    transformedData.append(Array(list[index ..< min(index + 5, list.count)]))
-                }
-                state.recommendKanjiList = transformedData
-                
-                return .none
-                
             case .recommendWordTapped(let indexPath):
                 let tappedData = state.recommendKanjiList[indexPath.section][indexPath.row]
                 guard let detailData = kanjiManager.findKanjiGroup(by: tappedData.kanji) else {return .none}
                 return .send(.delegate(.navigateToKanjiDetail(kanjiList: detailData.kanjiList, jlptLevel: detailData.jlptLevel, row: detailData.row)))
+                
+            case .timerTicked:
+                state.recommendShowIndex = (state.recommendShowIndex + 1) % state.recommendKanjiList.count
+                return .none
                 
             default: return .none
             }
