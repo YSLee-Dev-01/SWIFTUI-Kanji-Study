@@ -10,6 +10,7 @@ import ComposableArchitecture
 
 struct HomeView: View {
     @State private var store: StoreOf<HomeFeature>
+    private let isSmallDevice = UIScreen.main.bounds.width <= 375
     
     init(store: StoreOf<HomeFeature>) {
         self.store = store
@@ -65,7 +66,7 @@ struct HomeView: View {
                         Text("외우고 싶은 단어를 저장해보세요.")
                             .font(.system(size: 16, weight: .medium))
                             .padding(.top, 10)
-                            .frame(height: 75)
+                            .frame(height: self.isSmallDevice ? 60 :  75)
                     }
                 } else {
                     ScrollView(.horizontal) {
@@ -74,9 +75,9 @@ struct HomeView: View {
                                 ForEach(Array(self.store.favoriteWords.enumerated()), id: \.offset) { row, data in
                                     MainStyleView {
                                         Text(data)
-                                            .font(.system(size: 25, weight: .medium))
+                                            .font(.system(size: self.isSmallDevice ? 20 : 25, weight: .medium))
                                             .foregroundColor(.black)
-                                            .frame(width: 75, height: 75)
+                                            .frame(width: self.isSmallDevice ? 60 : 75, height: self.isSmallDevice ? 60 : 75)
                                     }
                                     .overlay {
                                         if self.store.isEditMode {
@@ -104,7 +105,7 @@ struct HomeView: View {
                         .animation(.smooth(duration: 0.2), value: self.store.favoriteWords)
                     }
                     .scrollIndicators(.hidden)
-                    .frame(height: 75)
+                    .frame(height: self.isSmallDevice ? 60 : 75)
                 }
             }
             .padding(.horizontal, 20)
@@ -124,7 +125,7 @@ struct HomeView: View {
                                         HStack(spacing: 0) {
                                                 ForEach(Array(sectionData.enumerated()), id: \.offset) { row, data in
                                                     Text("\(data.kanji)")
-                                                        .font(.system(size: 25, weight: .medium))
+                                                        .font(.system(size: self.isSmallDevice ? 20 : 25, weight: .medium))
                                                         .foregroundColor(.white)
                                                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                                                         .background {
@@ -137,7 +138,7 @@ struct HomeView: View {
                                                         }
                                                 }
                                         }
-                                        .frame(width: geometry.size.width, height: 80, alignment: .center)
+                                        .frame(width: geometry.size.width, height: self.isSmallDevice ? 65 : 80, alignment: .center)
                                         .id(section)
                                     }
                                 }
@@ -151,7 +152,7 @@ struct HomeView: View {
                             }
                         }
                     }
-                    .frame(height: 80)
+                    .frame(height: self.isSmallDevice ? 65 : 80)
                 }
             }
             .padding(.horizontal, 20)
@@ -199,13 +200,13 @@ private extension HomeView {
             } label: {
                 ExpandedView(alignment: .center) {
                     Text(title)
-                        .font(.system(size: 50, weight: .ultraLight))
+                        .font(.system(size: self.isSmallDevice ? 40 : 50, weight: .ultraLight))
                         .foregroundStyle(Color.gray.opacity(0.15))
                         .frame(maxHeight: .infinity)
                 }
                 .overlay {
                     Text(subTitle)
-                        .font(.system(size: 25, weight: .semibold))
+                        .font(.system(size: self.isSmallDevice ? 20 : 25, weight: .semibold))
                         .foregroundStyle(Color.black.opacity(0.9))
                 }
             }
